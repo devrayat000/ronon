@@ -6,11 +6,13 @@ specifiers:
   '@mantine/ssr': ^4.2.12
   '@remix-run/dev': ^1.6.5
   '@remix-run/eslint-config': ^1.6.5
+  '@remix-run/netlify': ^1.6.5
   '@remix-run/node': ^1.6.5
   '@remix-run/react': ^1.6.5
   '@remix-run/serve': ^1.6.5
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
+  cross-env: ^7.0.3
   eslint: ^8.15.0
   react: ^18.2.0
   react-dom: ^18.2.0
@@ -20,9 +22,11 @@ dependencies:
   '@mantine/core': 4.2.12_09d646d943feb6b3811ba4e9083c4c8d
   '@mantine/hooks': 4.2.12_react@18.2.0
   '@mantine/ssr': 4.2.12_08741bd84ef3e6fa073678331eea05f2
+  '@remix-run/netlify': 1.6.5_react-dom@18.2.0+react@18.2.0
   '@remix-run/node': 1.6.5_react-dom@18.2.0+react@18.2.0
   '@remix-run/react': 1.6.5_react-dom@18.2.0+react@18.2.0
   '@remix-run/serve': 1.6.5_react-dom@18.2.0+react@18.2.0
+  cross-env: 7.0.3
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
 
@@ -1849,6 +1853,18 @@ packages:
       - react-dom
     dev: false
 
+  /@remix-run/netlify/1.6.5_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-i9TVN05N3Fa3+6HnL3wjEigfCZIQ7Hwjp35WlVmuk7ZJjr8kzTKTLCa76MZLqe+3YIVv5u+mTbl9ndpkyPbkvw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@netlify/functions': ^0.10.0 || ^0.11.0 || ^1.0.0
+    dependencies:
+      '@remix-run/node': 1.6.5_react-dom@18.2.0+react@18.2.0
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
   /@remix-run/node/1.6.5_react-dom@18.2.0+react@18.2.0:
     resolution: {integrity: sha512-UMy775OV7LTzGCEpP9g7LUDYY/Rc5JUT5jgjK4vP4P+GHCTpnHjWdvloda379oN5JiRuMDD3IXwg2wnMNzrWPQ==}
     engines: {node: '>=14'}
@@ -2974,6 +2990,14 @@ packages:
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+    dev: false
+
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -2981,7 +3005,6 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
-    dev: true
 
   /csstype/3.0.9:
     resolution: {integrity: sha512-rpw6JPxK6Rfg1zLOYCSwle2GFOOsnjmDYDaBwEcwoOg4qlsIVCN789VkBZDJAGi4T07gI4YSutR43t9Zz4Lzuw==}
@@ -4799,7 +4822,6 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
-    dev: true
 
   /isobject/2.1.0:
     resolution: {integrity: sha512-+OUdGJlgjOBZDfxnDjYYG6zp487z0JGNQq3cYQYg5f5hKR+syHMsaztzGeml/4kGG55CSpKSpWTY+jYGgsHLgA==}
@@ -5942,7 +5964,6 @@ packages:
   /path-key/3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
     engines: {node: '>=8'}
-    dev: true
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -6566,12 +6587,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       shebang-regex: 3.0.0
-    dev: true
 
   /shebang-regex/3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-    dev: true
 
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
@@ -7327,7 +7346,6 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
-    dev: true
 
   /word-wrap/1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}

@@ -43,6 +43,7 @@ export default function App() {
           theme={{
             colorScheme: "light",
             fontFamily: "Inter, " + DEFAULT_THEME.fontFamily,
+            primaryColor: "violet",
           }}
           withGlobalStyles
           withNormalizeCSS

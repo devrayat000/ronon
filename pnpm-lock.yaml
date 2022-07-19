@@ -16,6 +16,7 @@ specifiers:
   eslint: ^8.15.0
   react: ^18.2.0
   react-dom: ^18.2.0
+  tabler-icons-react: ^1.53.0
   typescript: ^4.7.4
 
 dependencies:
@@ -29,6 +30,7 @@ dependencies:
   cross-env: 7.0.3
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  tabler-icons-react: 1.53.0_react@18.2.0
 
 devDependencies:
   '@remix-run/dev': 1.6.5_bb9b31fe1ed27c7e189de92eecebcd3d
@@ -6839,6 +6841,14 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
     dev: true
+
+  /tabler-icons-react/1.53.0_react@18.2.0:
+    resolution: {integrity: sha512-48csX1qiZaXK0yPgNmvkgsZSyqxBU0AVGGzT4DXh1CVEcTkKF39rQP7EeLYeTGeCnM2Ot9tSiKfay1FLOzr0Rg==}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /tar-fs/2.1.1:
     resolution: {integrity: sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==}

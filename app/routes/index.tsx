@@ -24,14 +24,35 @@ const useStyles = createStyles((theme) => ({
       borderBottomColor: "transparent",
       transform: "translateY(100%)",
     },
+    "&:hover::before": {
+      borderColor: theme.fn.darken(theme.colors.pink[6], 0.1),
+      borderLeftColor: "transparent",
+      borderBottomColor: "transparent",
+    },
+  },
+  container: {
+    paddingLeft: theme.spacing.xl * 4,
+    paddingRight: theme.spacing.xl * 4,
+    [theme.fn.smallerThan("md")]: {
+      paddingLeft: theme.spacing.xl * 2,
+      paddingRight: theme.spacing.xl * 2,
+    },
+    [theme.fn.smallerThan("sm")]: {
+      paddingLeft: theme.spacing.md,
+      paddingRight: theme.spacing.md,
+    },
+    [theme.fn.smallerThan("xs")]: {
+      paddingLeft: theme.spacing.xs,
+      paddingRight: theme.spacing.xs,
+    },
   },
 }));
 
 export default function Index() {
-  const { classes, theme } = useStyles();
+  const { classes } = useStyles();
 
   return (
-    <Container fluid px={theme.spacing.xl * 4}>
+    <Container fluid className={classes.container}>
       <SimpleGrid
         cols={1}
         spacing="md"

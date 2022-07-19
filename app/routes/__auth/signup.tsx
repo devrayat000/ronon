@@ -39,6 +39,7 @@ export default function SignupPage() {
         </Anchor>
       </Text>
 
+      {/* Signup form */}
       <Paper component={Form} withBorder shadow="md" p={30} mt={30} radius="md">
         <TextInput
           label="Full Name"

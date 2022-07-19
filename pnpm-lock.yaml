@@ -18,6 +18,7 @@ specifiers:
   react-dom: ^18.2.0
   tabler-icons-react: ^1.53.0
   typescript: ^4.7.4
+  zustand: ^4.0.0-rc.2
 
 dependencies:
   '@mantine/core': 4.2.12_09d646d943feb6b3811ba4e9083c4c8d
@@ -31,6 +32,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   tabler-icons-react: 1.53.0_react@18.2.0
+  zustand: 4.0.0-rc.2_react@18.2.0
 
 devDependencies:
   '@remix-run/dev': 1.6.5_bb9b31fe1ed27c7e189de92eecebcd3d
@@ -7228,6 +7230,14 @@ packages:
       use-isomorphic-layout-effect: 1.1.2_d9efaa4a57b9ddc48121b447e3437c81
     dev: false
 
+  /use-sync-external-store/1.2.0_react@18.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /use/3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}
     engines: {node: '>=0.10.0'}
@@ -7441,6 +7451,22 @@ packages:
   /yallist/4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
     dev: true
+
+  /zustand/4.0.0-rc.2_react@18.2.0:
+    resolution: {integrity: sha512-eGDJHNmubDTggkMyZciCfI0H+NptOKQICpliJ4hd/XAjEvYp5h525CVJZ8uDfwd9P5JfSFjpBo14Z0qv04NWJA==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
 
   /zwitch/2.0.2:
     resolution: {integrity: sha512-JZxotl7SxAJH0j7dN4pxsTV6ZLXoLdGME+PsjkL/DaBrVryK9kTGq06GfKrwcSOqypP+fdXGoCHE36b99fWVoA==}

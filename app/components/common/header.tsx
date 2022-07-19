@@ -1,11 +1,13 @@
 import { Anchor, createStyles, Group, Header, MediaQuery } from "@mantine/core";
-import { Link, NavLink } from "@remix-run/react";
+import { Link } from "@remix-run/react";
+
 import MyDrawer from "./drawer";
+import AuthLinks from "./links/auth";
+import MainLinks from "./links/main";
 
 const useStyles = createStyles((theme) => ({
   header: {
-    paddingLeft: theme.spacing.xl * 4,
-    paddingRight: theme.spacing.xl * 4,
+    padding: `${theme.spacing.xs}px ${theme.spacing.xl * 4}px`,
     [theme.fn.smallerThan("md")]: {
       paddingLeft: theme.spacing.xl * 2,
       paddingRight: theme.spacing.xl * 2,
@@ -27,8 +29,8 @@ const MyHeader: React.FC<Props> = (props) => {
   const { classes, theme } = useStyles();
 
   return (
-    <Header height={70} p="xs" className={classes.header}>
-      <Group align="center" position="apart" style={{ height: "100%" }}>
+    <Header height={70} className={classes.header}>
+      <Group position="apart" style={{ height: "100%" }}>
         {/* App title */}
         <Group>
           <MyDrawer />
@@ -45,22 +47,14 @@ const MyHeader: React.FC<Props> = (props) => {
 
         {/* Header links */}
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-          <Group spacing="lg">
-            <Anchor size="sm" component={NavLink} to="/">
-              Home
-            </Anchor>
-            <Anchor size="sm" component={NavLink} to="/questions">
-              Questions
-            </Anchor>
-            <Anchor size="sm" component={NavLink} to="/about">
-              About Us
-            </Anchor>
-            <Anchor size="sm" component={NavLink} to="/signup">
-              Register
-            </Anchor>
-            <Anchor size="sm" component={NavLink} to="/signin">
-              Sign In
-            </Anchor>
+          <Group spacing="xl">
+            <MainLinks />
+          </Group>
+        </MediaQuery>
+
+        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+          <Group spacing="xl">
+            <AuthLinks />
           </Group>
         </MediaQuery>
       </Group>

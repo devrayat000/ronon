@@ -1,23 +1,24 @@
 import {
   ActionIcon,
-  Anchor,
   createStyles,
   Drawer,
-  Group,
   MediaQuery,
+  Space,
+  Stack,
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-import { NavLink } from "@remix-run/react";
+import { useLocation } from "@remix-run/react";
+import { useEffect } from "react";
 import { Menu2 } from "tabler-icons-react";
+
+import AuthLinks from "./links/auth";
+import MainLinks from "./links/main";
 
 const useStyles = createStyles((theme) => ({
   drawer: {
     width: 320,
     [theme.fn.smallerThan("sm")]: {
-      width: 280,
-    },
-    [theme.fn.smallerThan("xs")]: {
-      width: 240,
+      width: "75%",
     },
   },
 }));
@@ -25,37 +26,39 @@ const useStyles = createStyles((theme) => ({
 type Props = {};
 
 const MyDrawer = (props: Props) => {
-  const [open, toggleDrawer] = useBooleanToggle(false);
-  const { classes } = useStyles();
+  const [open, toggle] = useBooleanToggle(false);
+  const { classes, theme } = useStyles();
+  const location = useLocation();
+
+  useEffect(() => {
+    toggle(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
   return (
     <>
       <MediaQuery largerThan="md" styles={{ display: "none" }}>
-        <ActionIcon onClick={() => toggleDrawer()}>
+        <ActionIcon onClick={() => toggle()}>
           <Menu2 />
         </ActionIcon>
       </MediaQuery>
       <Drawer
         opened={open}
-        onClose={() => toggleDrawer(false)}
+        onClose={() => toggle(false)}
         classNames={{ drawer: classes.drawer }}
+        padding="xl"
+        overlayBlur={3}
       >
-        <Group direction="column" align="center" spacing="md">
-          <Anchor size="sm" component={NavLink} to="/">
-            Home
-          </Anchor>
-          <Anchor size="sm" component={NavLink} to="/questions">
-            Questions
-          </Anchor>
-          <Anchor size="sm" component={NavLink} to="/about">
-            About Us
-          </Anchor>
-          <Anchor size="sm" component={NavLink} to="/signup">
-            Register
-          </Anchor>
-          <Anchor size="sm" component={NavLink} to="/signin">
-            Sign In
-          </Anchor>
-        </Group>
+        {/* Main links */}
+        <Stack spacing="md">
+          <MainLinks />
+        </Stack>
+
+        <Space h={theme.spacing.xl * 2} />
+        {/* Auth links */}
+        <Stack spacing="md">
+          <AuthLinks />
+        </Stack>
       </Drawer>
     </>
   );

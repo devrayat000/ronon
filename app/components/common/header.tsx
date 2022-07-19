@@ -4,6 +4,7 @@ import { Link } from "@remix-run/react";
 import MyDrawer from "./drawer";
 import AuthLinks from "./links/auth";
 import MainLinks from "./links/main";
+// import UserAvatar from "./user-avatar";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -47,16 +48,20 @@ const MyHeader: React.FC<Props> = (props) => {
 
         {/* Header links */}
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-          <Group spacing="xl">
+          <Group spacing="xs">
             <MainLinks />
           </Group>
         </MediaQuery>
 
+        {/* Auth links  */}
         <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-          <Group spacing="xl">
+          <Group spacing="md">
             <AuthLinks />
           </Group>
         </MediaQuery>
+
+        {/* User */}
+        {/* <UserAvatar /> */}
       </Group>
     </Header>
   );

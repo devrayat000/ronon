@@ -1,19 +1,58 @@
-import { Button } from "@mantine/core";
+import { Button, createStyles } from "@mantine/core";
 import { NavLink } from "@remix-run/react";
 // import useDrawer from "~/store/drawer";
 
 type Props = {};
 
+const useStyles = createStyles((theme) => {
+  const activeColor =
+    theme.primaryColor !== "orange"
+      ? theme.colors.orange[6]
+      : theme.colors.red[6];
+
+  return {
+    navlink: {
+      "&.active": {
+        color: activeColor,
+        // '&:hover': {
+        ...theme.fn.hover({
+          backgroundColor: theme.fn.lighten(activeColor, 0.85),
+        }),
+        // }
+      },
+    },
+  };
+});
+
 const MainLinks = (props: Props) => {
+  const { classes } = useStyles();
   return (
     <>
-      <Button size="sm" variant="subtle" component={NavLink} to="/">
+      <Button
+        className={classes.navlink}
+        size="sm"
+        variant="subtle"
+        component={NavLink}
+        to="/"
+      >
         Home
       </Button>
-      <Button size="sm" variant="subtle" component={NavLink} to="/questions">
+      <Button
+        className={classes.navlink}
+        size="sm"
+        variant="subtle"
+        component={NavLink}
+        to="/questions"
+      >
         Questions
       </Button>
-      <Button size="sm" variant="subtle" component={NavLink} to="/about">
+      <Button
+        className={classes.navlink}
+        size="sm"
+        variant="subtle"
+        component={NavLink}
+        to="/about"
+      >
         About Us
       </Button>
     </>

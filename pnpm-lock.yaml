@@ -1,15 +1,16 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@mantine/core': ^4.2.12
-  '@mantine/hooks': ^4.2.12
-  '@mantine/ssr': ^4.2.12
+  '@mantine/core': 4.2.12
+  '@mantine/hooks': 4.2.12
+  '@mantine/ssr': 4.2.12
   '@remix-run/dev': ^1.6.5
   '@remix-run/eslint-config': ^1.6.5
   '@remix-run/netlify': ^1.6.5
   '@remix-run/node': ^1.6.5
   '@remix-run/react': ^1.6.5
   '@remix-run/serve': ^1.6.5
+  '@tabler/icons': ^1.78.1
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
   cross-env: ^7.0.3
@@ -28,6 +29,7 @@ dependencies:
   '@remix-run/node': 1.6.5_react-dom@18.2.0+react@18.2.0
   '@remix-run/react': 1.6.5_react-dom@18.2.0+react@18.2.0
   '@remix-run/serve': 1.6.5_react-dom@18.2.0+react@18.2.0
+  '@tabler/icons': 1.78.1_react-dom@18.2.0+react@18.2.0
   cross-env: 7.0.3
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -1409,7 +1411,7 @@ packages:
       '@emotion/memoize': 0.7.5
       '@emotion/unitless': 0.7.5
       '@emotion/utils': 1.0.0
-      csstype: 3.0.9
+      csstype: 3.1.0
     dev: false
 
   /@emotion/server/11.4.0:
@@ -1991,6 +1993,21 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@tabler/icons/1.78.1_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-QT/94Hufvzn4PxsEyN9NTh96XmNaGGgMh7sKcBZ2216pE9B+Ala98KpdNwTKKBlEvRvHw9y14zW4qFYzxGOhZw==}
+    peerDependencies:
+      react: ^16.x || 17.x || 18.x
+      react-dom: ^16.x || 17.x || 18.x
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /@testing-library/dom/8.16.0:
     resolution: {integrity: sha512-uxF4zmnLHHDlmW4l+0WDjcgLVwCvH+OVLpD8Dfp+Bjfz85prwxWGbwXgJdLtkgjD0qfOzkJF9SmA6YZPsMYX4w==}
@@ -3016,7 +3033,6 @@ packages:
 
   /csstype/3.1.0:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
-    dev: true
 
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
@@ -3179,7 +3195,7 @@ packages:
     resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
     dependencies:
       domelementtype: 2.3.0
-      domhandler: 4.2.2
+      domhandler: 4.3.1
       entities: 2.2.0
     dev: false
 
@@ -3194,12 +3210,19 @@ packages:
       domelementtype: 2.3.0
     dev: false
 
+  /domhandler/4.3.1:
+    resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
+    engines: {node: '>= 4'}
+    dependencies:
+      domelementtype: 2.3.0
+    dev: false
+
   /domutils/2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
     dependencies:
       dom-serializer: 1.4.1
       domelementtype: 2.3.0
-      domhandler: 4.2.2
+      domhandler: 4.3.1
     dev: false
 
   /dotenv/16.0.1:
@@ -4440,7 +4463,7 @@ packages:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
     dependencies:
       domelementtype: 2.3.0
-      domhandler: 4.2.2
+      domhandler: 4.3.1
       domutils: 2.8.0
       entities: 2.2.0
     dev: false

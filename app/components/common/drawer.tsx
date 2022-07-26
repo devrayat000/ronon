@@ -1,5 +1,5 @@
 import {
-  ActionIcon,
+  Burger,
   createStyles,
   Drawer,
   MediaQuery,
@@ -9,7 +9,6 @@ import {
 import { useBooleanToggle } from "@mantine/hooks";
 import { useLocation } from "@remix-run/react";
 import { useEffect } from "react";
-import { Menu2 } from "tabler-icons-react";
 
 import AuthLinks from "./links/auth";
 import MainLinks from "./links/main";
@@ -30,6 +29,8 @@ const MyDrawer = (props: Props) => {
   const { classes, theme } = useStyles();
   const location = useLocation();
 
+  const title = open ? "Close navigation" : "Open navigation";
+
   useEffect(() => {
     toggle(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,9 +39,7 @@ const MyDrawer = (props: Props) => {
   return (
     <>
       <MediaQuery largerThan="md" styles={{ display: "none" }}>
-        <ActionIcon onClick={() => toggle()}>
-          <Menu2 />
-        </ActionIcon>
+        <Burger opened={open} title={title} onClick={() => toggle()} />
       </MediaQuery>
       <Drawer
         opened={open}

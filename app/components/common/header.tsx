@@ -9,6 +9,7 @@ import MainLinks from "./links/main";
 const useStyles = createStyles((theme) => ({
   header: {
     padding: `${theme.spacing.xs}px ${theme.spacing.xl * 4}px`,
+    position: "static",
     [theme.fn.smallerThan("md")]: {
       paddingLeft: theme.spacing.xl * 2,
       paddingRight: theme.spacing.xl * 2,

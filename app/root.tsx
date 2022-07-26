@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import { MantineProvider, DEFAULT_THEME, Global } from "@mantine/core";
+
 import MyShell from "./components/common/shell";
 
 export const meta: MetaFunction = () => ({
@@ -47,11 +48,15 @@ export default function App() {
           }}
           withGlobalStyles
           withNormalizeCSS
+          withCSSVariables
         >
           <Global
             styles={{
               "html, body": {
                 overflowY: "hidden",
+              },
+              body: {
+                margin: 0,
               },
             }}
           />

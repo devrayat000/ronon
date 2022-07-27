@@ -7,10 +7,8 @@ import {
   Group,
   createStyles,
   Container,
-  Stack,
-  ScrollArea,
 } from "@mantine/core";
-import UserInfoIcons from "~/components/contact/owener";
+import { ContactIconsList } from "~/components/contact/owener";
 
 const useStyles = createStyles((theme) => {
   const BREAKPOINT = theme.fn.smallerThan("sm");
@@ -155,13 +153,7 @@ export default function ContactUsPage() {
               Contact information
             </Text>
 
-            <ScrollArea sx={{ height: "100%" }}>
-              <Stack spacing="xs">
-                {contacts.map((c) => (
-                  <UserInfoIcons key={c.email} {...c} />
-                ))}
-              </Stack>
-            </ScrollArea>
+            <ContactIconsList variant="white" />
           </div>
 
           <form

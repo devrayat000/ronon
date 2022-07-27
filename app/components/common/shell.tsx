@@ -1,4 +1,6 @@
 import { AppShell, ScrollArea } from "@mantine/core";
+import { useTransition, createContext, useRef, useState } from "react";
+
 import MyFooter from "./footer";
 import MyHeader from "./header";
 
@@ -36,11 +38,40 @@ const footerData = [
   },
 ];
 
+type ScrollPosition = {
+  x: number;
+  y: number;
+};
+
+export const ScrollContext = createContext<
+  [ScrollPosition, (params: Partial<ScrollPosition>) => void]
+>([{ x: 0, y: 0 }, () => {}]);
+
 const MyShell: React.FC<Props> = (props) => {
+  const scrollableRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, onScrollPositionChange] = useState<ScrollPosition>({
+    x: 0,
+    y: 0,
+  });
+  const [, startTransition] = useTransition();
+
+  function scrollTo({ x, y }: Partial<ScrollPosition>) {
+    console.log("scroll to");
+    scrollableRef.current?.scrollTo({ top: y, left: x, behavior: "smooth" });
+  }
+
   return (
-    <ScrollArea sx={{ height: "100vh" }}>
+    <ScrollArea
+      sx={{ height: "100vh", scrollBehavior: "smooth" }}
+      viewportRef={scrollableRef}
+      onScrollPositionChange={(position) => {
+        startTransition(() => onScrollPositionChange(position));
+      }}
+    >
       <AppShell header={<MyHeader />} footer={<MyFooter data={footerData} />}>
-        {props.children}
+        <ScrollContext.Provider value={[scrollPosition, scrollTo]}>
+          {props.children}
+        </ScrollContext.Provider>
       </AppShell>
     </ScrollArea>
   );

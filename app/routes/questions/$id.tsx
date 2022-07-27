@@ -1,16 +1,22 @@
 import {
   Avatar,
   Box,
+  Button,
   Container,
   Group,
+  Paper,
   Stack,
   Text,
+  Textarea,
   Title,
+  TypographyStylesProvider,
 } from "@mantine/core";
+import { useScrollIntoView } from "@mantine/hooks";
 import { type LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import AnswerCard from "~/components/questions/answer-card";
+import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import { useEffect, useRef } from "react";
 
+import AnswerCard from "~/components/questions/answer-card";
 import { createMockQuestions, type Question } from "~/mocks/question.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -22,16 +28,14 @@ export default function QuestionAnswers() {
   const question = useLoaderData<Question>();
 
   return (
-    <Container fluid>
+    <Container>
       {/* Author info */}
       <Group>
-        <Avatar size="lg" radius="xl">
-          {question.askedBy.at(0)?.toUpperCase()}
-        </Avatar>
+        <Avatar src={question.author.image} size="lg" radius="xl" />
         <Box>
-          <Text size="md">{question.askedBy}</Text>
+          <Text size="md">{question.author.name}</Text>
           <Text size="sm" color="dimmed">
-            {question.askedDate}
+            {question.postedAt}
           </Text>
         </Box>
       </Group>
@@ -39,10 +43,22 @@ export default function QuestionAnswers() {
       {/* Original question */}
       <Box mt="xl">
         <Title order={4}>Question:</Title>
-        <Text component="p" my="xs">
-          {question.question}
+        <Text component="p" my="xs" size="lg" weight={600}>
+          {question.title}
         </Text>
+        <TypographyStylesProvider>
+          <div
+            // className={classes.content}
+            dangerouslySetInnerHTML={{ __html: question.body }}
+          />
+        </TypographyStylesProvider>
       </Box>
+
+      <Stack my="xl">
+        <Button component={Link} to="respond">
+          Leave an answer
+        </Button>
+      </Stack>
 
       {/* Answers list */}
       <Box mt="xl">
@@ -58,6 +74,8 @@ export default function QuestionAnswers() {
           ))}
         </Stack>
       </Box>
+
+      <Outlet />
     </Container>
   );
 }

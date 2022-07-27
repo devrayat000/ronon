@@ -4,8 +4,8 @@ import {
   Title,
   Container,
   SimpleGrid,
-  useMantineTheme,
   createStyles,
+  Paper,
 } from "@mantine/core";
 import {
   IconGauge,
@@ -49,28 +49,49 @@ export const MOCKDATA = [
   },
 ];
 
-interface FeatureProps {
-  icon: TablerIcon;
-  title: React.ReactNode;
-  description: React.ReactNode;
-}
+const useCardStyles = createStyles((theme) => ({
+  paper: {
+    borderTopRightRadius: theme.spacing.xl * 2,
+    borderBottomLeftRadius: theme.spacing.xl * 2,
+    position: "relative",
+    padding: `${theme.spacing.xl * 1.5}px ${theme.spacing.lg}px ${
+      theme.spacing.lg
+    }px`,
+  },
+  icon: {
+    position: "absolute",
+    top: 0,
+    left: 32,
+    transform: "translateY(-50%)",
+  },
+}));
 
-export function Feature({ icon: Icon, title, description }: FeatureProps) {
-  const theme = useMantineTheme();
+type FeatureProps = {
+  icon: TablerIcon;
+  title: string;
+  description: string;
+};
+const Feature: React.FC<FeatureProps> = ({
+  icon: ServiceIcon,
+  title,
+  description,
+}) => {
+  const { classes, theme } = useCardStyles();
+
   return (
-    <div>
-      <ThemeIcon variant="light" size={40} radius={40}>
-        <Icon size={20} stroke={1.5} />
+    <Paper withBorder className={classes.paper}>
+      <ThemeIcon size="xl" className={classes.icon}>
+        <ServiceIcon color={theme.white} />
       </ThemeIcon>
-      <Text style={{ marginTop: theme.spacing.sm, marginBottom: 7 }}>
+      <Text size="lg" weight={600}>
         {title}
       </Text>
-      <Text size="sm" color="dimmed" style={{ lineHeight: 1.6 }}>
+      <Text size="xs" color="gray" mt="xs">
         {description}
       </Text>
-    </div>
+    </Paper>
   );
-}
+};
 
 const useStyles = createStyles((theme) => ({
   wrapper: {

@@ -9,8 +9,8 @@ import { Link } from "@remix-run/react";
 import {
   IconBrandTwitter,
   IconBrandYoutube,
-  IconBrandInstagram,
   IconBrandAmazon,
+  IconBrandFacebook,
 } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
@@ -132,7 +132,6 @@ export default function MyFooter({ data }: FooterLinksProps) {
         className={classes.link}
         component={Link}
         to={link.link}
-        onClick={(event) => event.preventDefault()}
       >
         {link.label}
       </Text>
@@ -163,14 +162,20 @@ export default function MyFooter({ data }: FooterLinksProps) {
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
+          <ActionIcon
+            size="lg"
+            component="a"
+            href="https://www.facebook.com/rononedu"
+            rel="noopener"
+            target="_blank"
+          >
+            <IconBrandFacebook size={18} stroke={1.5} />
+          </ActionIcon>
           <ActionIcon size="lg">
             <IconBrandTwitter size={18} stroke={1.5} />
           </ActionIcon>
           <ActionIcon size="lg">
             <IconBrandYoutube size={18} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <IconBrandInstagram size={18} stroke={1.5} />
           </ActionIcon>
         </Group>
       </Container>

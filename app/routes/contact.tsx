@@ -8,7 +8,16 @@ import {
   createStyles,
   Container,
 } from "@mantine/core";
+import type { HeadersFunction } from "@remix-run/node";
+
 import { ContactIconsList } from "~/components/contact/owener";
+
+export const headers: HeadersFunction = () => {
+  return {
+    "Cache-Control":
+      "max-age=86400, s-maxage=604800, stale-while-revalidate=604800",
+  };
+};
 
 const useStyles = createStyles((theme) => {
   const BREAKPOINT = theme.fn.smallerThan("sm");
@@ -102,39 +111,6 @@ const useStyles = createStyles((theme) => {
     },
   };
 });
-
-const contacts = [
-  {
-    name: "Muhammad Tareq Hasan Siddiqui",
-    email: "tareqhs01@gmail",
-    phone: "+8801767180665",
-  },
-  {
-    name: "Omor Faruk Hasan",
-    email: "mhmhasanmahmud2@gmail",
-    phone: "+8801726855767",
-  },
-  {
-    name: "Md. Atik Faisal",
-    email: "atikfaisal20@gmail",
-    phone: "01521798549",
-  },
-  {
-    name: "MD. AMANULLAH ASIF",
-    email: "amanullahasif2001@gmail",
-    phone: "01537608959",
-  },
-  {
-    name: "Jubayer Al Maruf",
-    email: "jubayermaruf8012@gmail",
-    phone: "01909465970",
-  },
-  {
-    name: "Md Shakibul Hasan",
-    email: "mdshakibulhasancse20@gmail",
-    phone: "01779791972",
-  },
-];
 
 export default function ContactUsPage() {
   const { classes } = useStyles();

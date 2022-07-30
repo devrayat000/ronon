@@ -16,7 +16,10 @@ const useStyles = createStyles((theme) => ({
   wrapper: {
     margin: -theme.spacing.md,
     padding: `${theme.spacing.xl * 3}px ${theme.spacing.md}px`,
-    backgroundColor: theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === "light"
+        ? theme.colors.gray[0]
+        : theme.colors.dark[8],
   },
   container: {
     paddingLeft: theme.spacing.xl * 4,

@@ -4,14 +4,16 @@ import {
   Container,
   ActionIcon,
   Group,
+  Image,
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
 import {
   IconBrandTwitter,
   IconBrandYoutube,
-  IconBrandAmazon,
   IconBrandFacebook,
 } from "@tabler/icons";
+
+import logo from "~/assets/logo.png";
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -38,7 +40,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   description: {
-    marginTop: 5,
+    marginTop: theme.spacing.md,
+    fontFamily: "'Noto Serif Bengali', serif",
 
     [theme.fn.smallerThan("sm")]: {
       marginTop: theme.spacing.xs,
@@ -149,9 +152,11 @@ export default function MyFooter({ data }: FooterLinksProps) {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <IconBrandAmazon size={30} />
-          <Text size="xs" color="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+          <Image src={logo} alt="Brand Logo Footer" height={80} />
+          <Text size="sm" color="dimmed" className={classes.description}>
+            রণন একটি শিক্ষামূলক ওয়েবসাইট। শিক্ষার্থীদের যেকোনো জিজ্ঞাসার উত্তর
+            দেওয়ার জন্যই রণনের উদ্ভব। বাংলাদেশের সবচেয়ে বড় শিক্ষাবিষয়ক কমিউনিটি
+            গড়ার লক্ষ্য নিয়ে কাজ করে যাচ্ছে রণন।
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>

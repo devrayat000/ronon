@@ -12,19 +12,9 @@ const footerData = [
     links: [
       { label: "Contact Us", link: "contact" },
       { label: "About Ronon", link: "about" },
-      { label: "Features", link: "#" },
-      { label: "Pricing", link: "#" },
-      { label: "Support", link: "#" },
-      { label: "Forums", link: "#" },
-    ],
-  },
-  {
-    title: "Project",
-    links: [
-      { label: "Contribute", link: "#" },
-      { label: "Media assets", link: "#" },
-      { label: "Changelog", link: "#" },
-      { label: "Releases", link: "#" },
+      { label: "Pricing", link: "pricing" },
+      { label: "Terms & Conditions", link: "terms-conditions" },
+      { label: "Privacy Policy", link: "privacy-policy" },
     ],
   },
   {
@@ -33,7 +23,6 @@ const footerData = [
       { label: "Join Discord", link: "#" },
       { label: "Follow on Twitter", link: "#" },
       { label: "Email newsletter", link: "#" },
-      { label: "GitHub discussions", link: "#" },
     ],
   },
 ];

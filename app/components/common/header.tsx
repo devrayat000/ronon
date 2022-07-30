@@ -1,9 +1,17 @@
-import { Anchor, createStyles, Group, Header, MediaQuery } from "@mantine/core";
+import {
+  Anchor,
+  createStyles,
+  Group,
+  Header,
+  Image,
+  MediaQuery,
+} from "@mantine/core";
 import { Link } from "@remix-run/react";
 
 import MyDrawer from "./drawer";
 import AuthLinks from "./links/auth";
 import MainLinks from "./links/main";
+import logo from "~/assets/logo.png";
 // import UserAvatar from "./user-avatar";
 
 const useStyles = createStyles((theme) => ({
@@ -43,7 +51,7 @@ const MyHeader: React.FC<Props> = (props) => {
             component={Link}
             to="/"
           >
-            Ronon
+            <Image src={logo} alt="Brand Logo" height={56} />
           </Anchor>
         </Group>
 

@@ -39,7 +39,12 @@ const MyDrawer = (props: Props) => {
   return (
     <>
       <MediaQuery largerThan="md" styles={{ display: "none" }}>
-        <Burger opened={open} title={title} onClick={() => toggle()} />
+        <Burger
+          aria-label="Open navigation"
+          opened={open}
+          title={title}
+          onClick={() => toggle()}
+        />
       </MediaQuery>
       <Drawer
         opened={open}

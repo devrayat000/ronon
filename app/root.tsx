@@ -1,8 +1,4 @@
-import type {
-  HeadersFunction,
-  LinksFunction,
-  MetaFunction,
-} from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -14,6 +10,7 @@ import {
 import { MantineProvider, DEFAULT_THEME, Global } from "@mantine/core";
 
 import MyShell from "./components/common/shell";
+import logo from "~/assets/logo.png";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -23,6 +20,8 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => {
   return [
+    { rel: "icon", type: "image/png", href: logo },
+    { rel: "preload", href: logo, as: "image", type: "image/png" },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
       rel: "preconnect",

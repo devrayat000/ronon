@@ -53,7 +53,25 @@ const MainLinks = (props: Props) => {
         component={NavLink}
         to="/about"
       >
-        About Us
+        About
+      </Button>
+      <Button
+        className={classes.navlink}
+        size="sm"
+        variant="subtle"
+        component={NavLink}
+        to="/contact"
+      >
+        Contact Us
+      </Button>
+      <Button
+        className={classes.navlink}
+        size="sm"
+        variant="subtle"
+        component={NavLink}
+        to="/pricing"
+      >
+        Pricing
       </Button>
     </>
   );

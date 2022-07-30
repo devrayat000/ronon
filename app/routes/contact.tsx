@@ -78,7 +78,7 @@ const useStyles = createStyles((theme) => {
       backgroundPosition: "center",
       border: "1px solid transparent",
       padding: theme.spacing.md,
-      flex: "0 0 360px",
+      flex: "0 0 280px",
 
       [BREAKPOINT]: {
         marginBottom: theme.spacing.sm,

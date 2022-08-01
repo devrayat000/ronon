@@ -50,7 +50,7 @@ export default function AnswerQuestionPage() {
     >
       <Textarea placeholder="Write answer..." name="Answer" />
       <Group position="right" mt="md">
-        <Button>Submit Answer</Button>
+        <Button type='submit'>Submit Answer</Button>
       </Group>
     </Paper>
   );

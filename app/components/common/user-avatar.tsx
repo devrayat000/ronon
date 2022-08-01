@@ -1,10 +1,13 @@
 import { ActionIcon, Avatar, Menu, useMantineTheme } from "@mantine/core";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { Logout, Settings } from "tabler-icons-react";
+
+import type { User } from "~/interfaces/user";
 
 type Props = {};
 
 const UserAvatar = (props: Props) => {
+  const user = useLoaderData<User>();
   const theme = useMantineTheme();
 
   return (
@@ -15,7 +18,7 @@ const UserAvatar = (props: Props) => {
       control={
         <ActionIcon>
           <Avatar radius="xl" size="md">
-            S
+            {user.Name.at(0)?.toUpperCase()}
           </Avatar>
         </ActionIcon>
       }

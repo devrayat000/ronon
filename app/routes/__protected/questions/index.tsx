@@ -10,24 +10,46 @@ import type { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useContext } from "react";
 import { ArrowBarUp } from "tabler-icons-react";
+
 import { ScrollContext } from "~/components/common/shell";
 import { CommentHtml } from "~/components/question";
+import { requireCookie } from "~/services/cookie.server";
+import { requireId } from "~/modules/jwt.server";
+import type { Question } from "~/interfaces/question";
+import type { User } from "~/interfaces/user";
+import type { Answer } from "~/interfaces/answer";
+import { contentHOF } from "~/services/refresh.server";
+import { getQuestions } from "~/services/question.server";
 
-import { createMockQuestions, type Question } from "~/mocks/question.server";
+export const loader: LoaderFunction = async ({ request }) => {
+  const accessToken = await requireCookie(request);
+  const id = requireId(accessToken);
 
-export const loader: LoaderFunction = async () => {
-  return createMockQuestions();
+  return await contentHOF(request, (accessToken) =>
+    getQuestions(id, accessToken)
+  );
+};
+
+type LoaderData = Question & {
+  author: User;
+  answers: Answer[];
 };
 
 export default function QuestionsPage() {
-  const questions = useLoaderData<Question[]>();
+  const questions = useLoaderData<LoaderData[]>();
   const [scroll, scrollTo] = useContext(ScrollContext);
 
   return (
     <Container>
       <Stack>
-        {questions.map(({ id, answers, ...c }) => (
-          <CommentHtml key={id} id={id} {...c} answerCount={answers.length} />
+        {questions.map(({ ID, Que, answers, author }) => (
+          <CommentHtml
+            key={ID}
+            id={ID}
+            author={author}
+            title={Que}
+            answerCount={answers.length}
+          />
         ))}
       </Stack>
 

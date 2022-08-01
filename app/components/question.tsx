@@ -1,15 +1,15 @@
 import {
   createStyles,
-  Text,
   Avatar,
   Group,
-  TypographyStylesProvider,
   Paper,
   Anchor,
   Box,
   Button,
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
+
+import type { User } from "~/interfaces/user";
 
 const useStyles = createStyles((theme) => ({
   comment: {
@@ -30,21 +30,14 @@ const useStyles = createStyles((theme) => ({
 
 interface CommentHtmlProps {
   id: number | string;
-  postedAt: string;
   title: string;
-  body: string;
   answerCount: number;
-  author: {
-    name: string;
-    image: string;
-  };
+  author: User;
 }
 
 export function CommentHtml({
   id,
-  postedAt,
   title,
-  body,
   author,
   answerCount,
 }: CommentHtmlProps) {
@@ -53,26 +46,17 @@ export function CommentHtml({
   return (
     <Paper withBorder radius="md" className={classes.comment}>
       <Group>
-        <Avatar src={author.image} alt={author.name} radius="xl" />
-        <Group>
-          <Anchor size="sm" variant="text" component={Link} to="/u/someone">
-            {author.name}
-          </Anchor>
-          <Text size="xs" color="dimmed">
-            Asked: {postedAt}
-          </Text>
-        </Group>
+        <Avatar alt={author.Name} radius="xl">
+          {author.Name.at(0)?.toUpperCase()}
+        </Avatar>
+        <Anchor size="sm" variant="text" component={Link} to="/u/someone">
+          {author.Name}
+        </Anchor>
       </Group>
       <Box pl={theme.spacing.xl * 2}>
         <Anchor size="lg" variant="text" component={Link} to={id.toString()}>
           {title}
         </Anchor>
-        <TypographyStylesProvider className={classes.body}>
-          <div
-            className={classes.content}
-            dangerouslySetInnerHTML={{ __html: body }}
-          />
-        </TypographyStylesProvider>
 
         <Group position="apart" mt="md">
           <Button

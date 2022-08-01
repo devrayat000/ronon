@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import {
   Burger,
+  Button,
   createStyles,
   Drawer,
   MediaQuery,
@@ -7,9 +9,9 @@ import {
   Stack,
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-import { useLocation } from "@remix-run/react";
-import { useEffect } from "react";
+import { NavLink, useLoaderData, useLocation } from "@remix-run/react";
 
+import type { User } from "~/interfaces/user";
 import AuthLinks from "./links/auth";
 import MainLinks from "./links/main";
 
@@ -25,6 +27,7 @@ const useStyles = createStyles((theme) => ({
 type Props = {};
 
 const MyDrawer = (props: Props) => {
+  const user = useLoaderData<User | null>();
   const [open, toggle] = useBooleanToggle(false);
   const { classes, theme } = useStyles();
   const location = useLocation();
@@ -61,7 +64,23 @@ const MyDrawer = (props: Props) => {
         <Space h={theme.spacing.xl * 2} />
         {/* Auth links */}
         <Stack spacing="md">
-          <AuthLinks />
+          {!user ? (
+            <AuthLinks />
+          ) : (
+            <>
+              <Button
+                size="sm"
+                variant="light"
+                component={NavLink}
+                to="/account"
+              >
+                Account Settings
+              </Button>
+              <Button size="sm" color="red">
+                Logout
+              </Button>
+            </>
+          )}
         </Stack>
       </Drawer>
     </>

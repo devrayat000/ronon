@@ -1,16 +1,31 @@
 import {
   TextInput,
   PasswordInput,
-  Checkbox,
   Anchor,
   Paper,
   Title,
   Text,
   Container,
-  Group,
   Button,
 } from "@mantine/core";
 import { Form, Link, useSearchParams } from "@remix-run/react";
+import { type ActionArgs, redirect } from "@remix-run/node";
+
+import type { Token } from "~/interfaces/token";
+import { api } from "~/modules/axios.server";
+import { getCookieHeader } from "~/services/cookie-header.server";
+
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+  const { email, password } = Object.fromEntries(formData.entries());
+
+  const loginRes = await api.post<Token>("/token/", { email, password });
+  const { access, refresh } = loginRes.data;
+
+  return redirect(`/questions`, {
+    headers: await getCookieHeader(access, refresh),
+  });
+}
 
 export default function SigninPage() {
   const [params] = useSearchParams();
@@ -40,21 +55,34 @@ export default function SigninPage() {
         </Anchor>
       </Text>
 
-      <Paper component={Form} withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
+      <Paper
+        component={Form}
+        method="post"
+        withBorder
+        shadow="md"
+        p={30}
+        mt={30}
+        radius="md"
+      >
+        <TextInput
+          label="Email"
+          placeholder="you@mantine.dev"
+          name="email"
+          variant="filled"
+          required
+        />
         <PasswordInput
           label="Password"
           placeholder="Your password"
+          name="password"
+          variant="filled"
           required
           mt="md"
         />
-        <Group position="apart" mt="md">
-          <Checkbox label="Remember me" />
-          <Anchor component={Link} to="/forgot-password" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl">
+        <Anchor component={Link} mt="md" to="/forgot-password" size="sm">
+          Forgot password?
+        </Anchor>
+        <Button fullWidth type="submit" mt="xl">
           Sign in
         </Button>
       </Paper>

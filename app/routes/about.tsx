@@ -90,7 +90,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function AboutPage() {
-  const { classes, theme, cx } = useStyles();
+  const { classes, theme } = useStyles();
 
   return (
     <main>

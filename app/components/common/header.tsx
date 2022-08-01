@@ -6,12 +6,14 @@ import {
   Image,
   MediaQuery,
 } from "@mantine/core";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 import MyDrawer from "./drawer";
 import AuthLinks from "./links/auth";
 import MainLinks from "./links/main";
 import logo from "~/assets/logo.png";
+import type { User } from "~/interfaces/user";
+import UserAvatar from "./user-avatar";
 // import UserAvatar from "./user-avatar";
 
 const useStyles = createStyles((theme) => ({
@@ -36,6 +38,7 @@ const useStyles = createStyles((theme) => ({
 type Props = {};
 
 const MyHeader: React.FC<Props> = (props) => {
+  const user = useLoaderData<User | null>();
   const { classes, theme } = useStyles();
 
   return (
@@ -63,14 +66,16 @@ const MyHeader: React.FC<Props> = (props) => {
         </MediaQuery>
 
         {/* Auth links  */}
-        <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-          <Group spacing="md">
-            <AuthLinks />
-          </Group>
-        </MediaQuery>
-
-        {/* User */}
-        {/* <UserAvatar /> */}
+        {!user ? (
+          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+            <Group spacing="md">
+              <AuthLinks />
+            </Group>
+          </MediaQuery>
+        ) : (
+          /* User */
+          <UserAvatar />
+        )}
       </Group>
     </Header>
   );

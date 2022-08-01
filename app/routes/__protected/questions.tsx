@@ -1,5 +1,5 @@
 import { Outlet } from "@remix-run/react";
 
-export default function () {
+export default function QuestionPage() {
   return <Outlet />;
 }

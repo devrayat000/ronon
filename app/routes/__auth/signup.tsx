@@ -10,6 +10,26 @@ import {
   Button,
 } from "@mantine/core";
 import { Form, Link, useSearchParams } from "@remix-run/react";
+import { type ActionArgs, redirect } from "@remix-run/node";
+
+import { api } from "~/modules/axios.server";
+import type { Token } from "~/interfaces/token";
+import { getCookieHeader } from "~/services/cookie-header.server";
+
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData();
+  const { email, name, phone, password } = Object.fromEntries(
+    formData.entries()
+  );
+
+  await api.post("/createUser/", { email, name, phone, password });
+  const loginRes = await api.post<Token>("/token/", { email, password });
+  const { access, refresh } = loginRes.data;
+
+  return redirect(`/questions`, {
+    headers: await getCookieHeader(access, refresh),
+  });
+}
 
 export default function SignupPage() {
   const [params] = useSearchParams();
@@ -40,17 +60,38 @@ export default function SignupPage() {
       </Text>
 
       {/* Signup form */}
-      <Paper component={Form} withBorder shadow="md" p={30} mt={30} radius="md">
+      <Paper
+        component={Form}
+        method="post"
+        withBorder
+        shadow="md"
+        p={30}
+        mt={30}
+        radius="md"
+      >
         <TextInput
           label="Full Name"
           placeholder="John Doe"
+          name="name"
+          variant="filled"
           required
           minLength={6}
         />
         <TextInput
           label="Email"
           type="email"
+          name="password"
+          variant="filled"
           placeholder="you@mantine.dev"
+          required
+          mt="md"
+        />
+        <TextInput
+          label="Phone"
+          type="text"
+          name="phone"
+          variant="filled"
+          placeholder="013xxxxxxxx"
           required
           mt="md"
         />
@@ -58,6 +99,8 @@ export default function SignupPage() {
           label="Password"
           placeholder="Your password"
           required
+          name="password"
+          variant="filled"
           minLength={8}
           maxLength={32}
           mt="md"

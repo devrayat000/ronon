@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -11,6 +11,22 @@ import { MantineProvider, DEFAULT_THEME, Global } from "@mantine/core";
 
 import MyShell from "./components/common/shell";
 import logo from "~/assets/logo.png";
+import { getCookie } from "./services/cookie.server";
+import { decodeToken } from "./modules/jwt.server";
+import { getUser } from "./services/user.server";
+import { contentHOF } from "./services/refresh.server";
+
+export async function loader({ request }: LoaderArgs) {
+  const accessToken = await getCookie(request);
+  if (!accessToken) return null;
+  const token = decodeToken(accessToken);
+  if (!token || !("user_id" in token)) return null;
+
+  const user = await contentHOF(request, (accessToken) =>
+    getUser(token.user_id, accessToken)
+  );
+  return user;
+}
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",

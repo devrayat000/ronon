@@ -9,7 +9,7 @@ import {
   Stack,
 } from "@mantine/core";
 import { useBooleanToggle } from "@mantine/hooks";
-import { NavLink, useLoaderData, useLocation } from "@remix-run/react";
+import { Form, NavLink, useLoaderData, useLocation } from "@remix-run/react";
 
 import type { User } from "~/interfaces/user";
 import AuthLinks from "./links/auth";
@@ -76,9 +76,11 @@ const MyDrawer = (props: Props) => {
               >
                 Account Settings
               </Button>
-              <Button size="sm" color="red">
-                Logout
-              </Button>
+              <Form action="/logout" method="post">
+                <Button size="sm" color="red">
+                  Logout
+                </Button>
+              </Form>
             </>
           )}
         </Stack>

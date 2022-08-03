@@ -32,7 +32,7 @@ interface CommentHtmlProps {
   id: number | string;
   title: string;
   answerCount: number;
-  author: User;
+  author: Pick<User, "Name">;
 }
 
 export function CommentHtml({

@@ -7,8 +7,9 @@ import {
   Text,
   Container,
   Button,
+  Group,
 } from "@mantine/core";
-import { Form, Link, useSearchParams } from "@remix-run/react";
+import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { type ActionArgs, redirect } from "@remix-run/node";
 
 import type { Token } from "~/interfaces/token";
@@ -16,18 +17,27 @@ import { api } from "~/modules/axios.server";
 import { getCookieHeader } from "~/services/cookie-header.server";
 
 export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
-  const { email, password } = Object.fromEntries(formData.entries());
+  try {
+    const formData = await request.formData();
+    const { email, password } = Object.fromEntries(formData.entries());
 
-  const loginRes = await api.post<Token>("/token/", { email, password });
-  const { access, refresh } = loginRes.data;
+    const loginRes = await api.post<Token | any>("/token/", {
+      email,
+      password,
+    });
+    const { access, refresh } = loginRes.data;
 
-  return redirect(`/questions`, {
-    headers: await getCookieHeader(access, refresh),
-  });
+    return redirect(`/questions`, {
+      headers: await getCookieHeader(access, refresh),
+    });
+  } catch (error) {
+    console.log(error);
+    return { authError: error?.data?.message ?? "User may not exist" };
+  }
 }
 
 export default function SigninPage() {
+  const actionData = useActionData();
   const [params] = useSearchParams();
 
   return (
@@ -79,9 +89,14 @@ export default function SigninPage() {
           required
           mt="md"
         />
-        <Anchor component={Link} mt="md" to="/forgot-password" size="sm">
-          Forgot password?
-        </Anchor>
+        <Group mt="md">
+          <Anchor component={Link} to="/forgot-password" size="sm">
+            Forgot password?
+          </Anchor>
+        </Group>
+        {actionData?.authError && (
+          <Text color="red">{actionData.authError}</Text>
+        )}
         <Button fullWidth type="submit" mt="xl">
           Sign in
         </Button>

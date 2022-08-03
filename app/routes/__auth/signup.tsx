@@ -9,7 +9,7 @@ import {
   Container,
   Button,
 } from "@mantine/core";
-import { Form, Link, useSearchParams } from "@remix-run/react";
+import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import { type ActionArgs, redirect } from "@remix-run/node";
 
 import { api } from "~/modules/axios.server";
@@ -17,21 +17,25 @@ import type { Token } from "~/interfaces/token";
 import { getCookieHeader } from "~/services/cookie-header.server";
 
 export async function action({ request }: ActionArgs) {
-  const formData = await request.formData();
-  const { email, name, phone, password } = Object.fromEntries(
-    formData.entries()
-  );
+  try {
+    const formData = await request.formData();
+    const { email, password, ...rest } = Object.fromEntries(formData.entries());
 
-  await api.post("/createUser/", { email, name, phone, password });
-  const loginRes = await api.post<Token>("/token/", { email, password });
-  const { access, refresh } = loginRes.data;
+    await api.post("/createUser/", { email, password, ...rest });
+    const loginRes = await api.post<Token>("/token/", { email, password });
+    const { access, refresh } = loginRes.data;
 
-  return redirect(`/questions`, {
-    headers: await getCookieHeader(access, refresh),
-  });
+    return redirect(`/questions`, {
+      headers: await getCookieHeader(access, refresh),
+    });
+  } catch (error) {
+    console.log(error.message);
+    return { authError: "User may already exist!" };
+  }
 }
 
 export default function SignupPage() {
+  const actionData = useActionData();
   const [params] = useSearchParams();
 
   return (
@@ -94,6 +98,30 @@ export default function SignupPage() {
           placeholder="013xxxxxxxx"
           required
           mt="md"
+          maxLength={11}
+        />
+        <TextInput
+          label="College"
+          type="text"
+          name="college"
+          variant="filled"
+          placeholder="Dhaka College"
+          mt="md"
+        />
+        <TextInput
+          label="HSC Year"
+          type="text"
+          name="hsc_year"
+          variant="filled"
+          placeholder="2012"
+          mt="md"
+        />
+        <TextInput
+          label="Invite Code"
+          type="text"
+          name="invite_code"
+          variant="filled"
+          mt="md"
         />
         <PasswordInput
           label="Password"
@@ -117,6 +145,9 @@ export default function SignupPage() {
             </>
           }
         />
+        {actionData?.authError && (
+          <Text color="red">{actionData.authError}</Text>
+        )}
         <Button type="submit" fullWidth mt="xl">
           Sign up
         </Button>

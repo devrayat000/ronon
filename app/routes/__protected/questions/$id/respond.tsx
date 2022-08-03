@@ -6,7 +6,6 @@ import { Form } from "@remix-run/react";
 import { requireCookie } from "~/services/cookie.server";
 import { requireId } from "~/modules/jwt.server";
 import { api } from "~/modules/axios.server";
-import { contentHOF } from "~/services/refresh.server";
 
 export async function action({ request, params }: ActionArgs) {
   const formData = await request.formData();
@@ -15,17 +14,15 @@ export async function action({ request, params }: ActionArgs) {
   const accessToken = await requireCookie(request);
   const User = requireId(accessToken);
 
-  return contentHOF(request, (accessToken) =>
-    api
-      .post(
-        "/createAnswer/",
-        { PQue, Answer, User },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      )
-      .then((r) => r.data)
-  );
+  return api
+    .post(
+      "/createAnswer/",
+      { PQue, Answer, User },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    )
+    .then((r) => r.data);
 }
 
 export default function AnswerQuestionPage() {
@@ -50,7 +47,7 @@ export default function AnswerQuestionPage() {
     >
       <Textarea placeholder="Write answer..." name="Answer" />
       <Group position="right" mt="md">
-        <Button type='submit'>Submit Answer</Button>
+        <Button type="submit">Submit Answer</Button>
       </Group>
     </Paper>
   );

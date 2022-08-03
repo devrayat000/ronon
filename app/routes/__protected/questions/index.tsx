@@ -1,37 +1,29 @@
 import {
   Affix,
   Button,
-  Center,
   Container,
+  Group,
   Stack,
   Transition,
 } from "@mantine/core";
 import type { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { useContext } from "react";
 import { ArrowBarUp } from "tabler-icons-react";
 
 import { ScrollContext } from "~/components/common/shell";
 import { CommentHtml } from "~/components/question";
 import { requireCookie } from "~/services/cookie.server";
-import { requireId } from "~/modules/jwt.server";
 import type { Question } from "~/interfaces/question";
-import type { User } from "~/interfaces/user";
 import type { Answer } from "~/interfaces/answer";
-import { contentHOF } from "~/services/refresh.server";
 import { getQuestions } from "~/services/question.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const accessToken = await requireCookie(request);
-  const id = requireId(accessToken);
-
-  return await contentHOF(request, (accessToken) =>
-    getQuestions(id, accessToken)
-  );
+  return await getQuestions(accessToken);
 };
 
 type LoaderData = Question & {
-  author: User;
   answers: Answer[];
 };
 
@@ -41,21 +33,22 @@ export default function QuestionsPage() {
 
   return (
     <Container>
-      <Stack>
-        {questions.map(({ ID, Que, answers, author }) => (
+      <Group position="right">
+        <Button component={Link} to="create">
+          Ask Question
+        </Button>
+      </Group>
+      <Stack mt="xl">
+        {questions.map(({ ID, Que, answers, ...rest }) => (
           <CommentHtml
             key={ID}
             id={ID}
-            author={author}
+            author={{ Name: rest["User's Name"] }}
             title={Que}
             answerCount={answers.length}
           />
         ))}
       </Stack>
-
-      <Center mt="xl">
-        <Button>Load More</Button>
-      </Center>
 
       <Affix position={{ bottom: 20, right: 20 }}>
         <Transition transition="slide-up" mounted={scroll.y > 0}>

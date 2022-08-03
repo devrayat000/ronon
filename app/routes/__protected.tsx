@@ -1,17 +1,15 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { type LoaderArgs } from "@remix-run/node";
 
-import { requireCookie } from "~/services/cookie.server";
 import { requireId } from "~/modules/jwt.server";
 import { getUser } from "~/services/user.server";
 import { contentHOF } from "~/services/refresh.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const accessToken = await requireCookie(request);
-  const id = requireId(accessToken);
-  const user = await contentHOF(request, (accessToken) =>
-    getUser(id, accessToken)
-  );
+  const user = await contentHOF(request, (accessToken) => {
+    const id = requireId(accessToken);
+    return getUser(id, accessToken);
+  });
 
   return user;
 }

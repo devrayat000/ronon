@@ -7,9 +7,15 @@ import type { Token } from "~/interfaces/token";
 
 export async function refreshToken(request: Request) {
   const refreshToken = await requireRefreshCookie(request);
-  const resp = await api.post<Token>("/refresh/", { refresh: refreshToken });
+  const resp = await api.post<Token>("/token/refresh/", {
+    refresh: refreshToken,
+  });
+
   const { access, refresh } = resp.data;
-  return await getCookieHeader(access, refresh);
+  return {
+    headers: await getCookieHeader(access, refresh),
+    accessToken: access,
+  };
 }
 
 export async function contentHOF<T>(
@@ -20,9 +26,8 @@ export async function contentHOF<T>(
   return callback(accessToken)
     .then((res) => json(res))
     .catch(async (err) => {
-      if (err.code === "token_not_valid") {
-        const headers = await refreshToken(request);
-        const accessToken = await requireCookie(request);
+      if (err.response.data.code === "token_not_valid") {
+        const { headers, accessToken } = await refreshToken(request);
         const resp = await callback(accessToken);
         return json(resp, { headers });
       }

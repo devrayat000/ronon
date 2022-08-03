@@ -43,7 +43,7 @@ export default function QuestionsPage() {
           <CommentHtml
             key={ID}
             id={ID}
-            author={{ Name: rest["User's Name"] }}
+            author={rest["User's Name"]}
             title={Que}
             answerCount={answers.length}
           />

@@ -25,7 +25,9 @@ export async function action({ request }: ActionArgs) {
       email,
       password,
     });
+
     const { access, refresh } = loginRes.data;
+    console.log(access);
 
     return redirect(`/questions`, {
       headers: await getCookieHeader(access, refresh),

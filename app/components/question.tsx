@@ -9,8 +9,6 @@ import {
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
 
-import type { User } from "~/interfaces/user";
-
 const useStyles = createStyles((theme) => ({
   comment: {
     padding: `${theme.spacing.lg}px ${theme.spacing.xl}px`,
@@ -32,7 +30,7 @@ interface CommentHtmlProps {
   id: number | string;
   title: string;
   answerCount: number;
-  author: Pick<User, "Name">;
+  author: string;
 }
 
 export function CommentHtml({
@@ -46,11 +44,11 @@ export function CommentHtml({
   return (
     <Paper withBorder radius="md" className={classes.comment}>
       <Group>
-        <Avatar alt={author.Name} radius="xl">
-          {author.Name.at(0)?.toUpperCase()}
+        <Avatar alt={author} radius="xl">
+          {author.at(0)?.toUpperCase()}
         </Avatar>
         <Anchor size="sm" variant="text" component={Link} to="/u/someone">
-          {author.Name}
+          {author}
         </Anchor>
       </Group>
       <Box pl={theme.spacing.xl * 2}>

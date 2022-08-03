@@ -1,20 +1,27 @@
 import { createCookie, redirect } from "@remix-run/node"; // or cloudflare/deno
 
 export const accessCookie = createCookie("ronon.access", {
-  maxAge: 5 * 60, // one week,
+  maxAge: 604_800, // one week,
   httpOnly: true,
-  sameSite: "strict",
+  sameSite: "lax",
 });
 
 export const refreshCookie = createCookie("ronon.refresh", {
   maxAge: 604_800, // one week
   httpOnly: true,
-  sameSite: "strict",
+  sameSite: "lax",
+  secure: false,
 });
 
 export async function getCookie(request: Request) {
   const cookieHeader = request.headers.get("Cookie");
   const token = await accessCookie.parse(cookieHeader);
+  return token;
+}
+
+export async function getRefreshCookie(request: Request) {
+  const cookieHeader = request.headers.get("Cookie");
+  const token = await refreshCookie.parse(cookieHeader);
   return token;
 }
 
@@ -29,8 +36,7 @@ export async function requireCookie(request: Request) {
 }
 
 export async function requireRefreshCookie(request: Request) {
-  const cookieHeader = request.headers.get("Cookie");
-  const token = await refreshCookie.parse(cookieHeader);
+  const token = await getRefreshCookie(request);
   if (!token) {
     const url = new URL(request.url);
     const params = new URLSearchParams([["_next", url.pathname]]);

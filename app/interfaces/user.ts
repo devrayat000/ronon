@@ -4,7 +4,7 @@ export interface User {
   "User ID": string;
   Email: string;
   Name: string;
-  "HSC Year": string;
+  "HSC Year"?: string;
   "Points Earned": number;
   "Points Withdrawn": number;
   "Invite Code": string;

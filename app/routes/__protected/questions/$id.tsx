@@ -15,7 +15,6 @@ import AnswerCard from "~/components/questions/answer-card";
 import { requireCookie } from "~/services/cookie.server";
 import { getQuestionById } from "~/services/question.server";
 import type { Question } from "~/interfaces/question";
-import type { User } from "~/interfaces/user";
 import type { Answer } from "~/interfaces/answer";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -28,7 +27,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 };
 
 type LoaderData = Question & {
-  author: User;
   answers: Answer[];
 };
 
@@ -39,11 +37,11 @@ export default function QuestionAnswers() {
     <Container>
       {/* Author info */}
       <Group>
-        <Avatar alt={question.author.Name} radius="xl">
-          {question.author.Name.at(0)?.toUpperCase()}
+        <Avatar alt={question["User's Name"]} radius="xl">
+          {question["User's Name"].at(0)?.toUpperCase()}
         </Avatar>
         <Box>
-          <Text size="md">{question.author.Name}</Text>
+          <Text size="md">{question["User's Name"]}</Text>
         </Box>
       </Group>
 

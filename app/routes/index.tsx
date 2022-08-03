@@ -6,11 +6,22 @@ import {
   IconUserCheck,
   IconZoomQuestion,
 } from "@tabler/icons";
-import type { HeadersFunction } from "@remix-run/node";
+import type { HeadersFunction, LinksFunction } from "@remix-run/node";
 
 import GotoSection from "~/components/home/goto";
 import HeroSection from "~/components/home/hero";
 import FeaturesGrid from "~/components/home/services";
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "preload",
+      href: "/assets/ronon_illustration.svg",
+      as: "image",
+      type: "image/png",
+    },
+  ];
+};
 
 export const headers: HeadersFunction = () => {
   return {
@@ -23,7 +34,6 @@ export default function Index() {
   return (
     <>
       <HeroSection />
-
       <FeaturesGrid
         title="Learn, Teach, Enjoy, anytime."
         data={[

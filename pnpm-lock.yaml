@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@mantine/core': 4.2.12
   '@mantine/hooks': 4.2.12
+  '@mantine/notifications': 4.2.12
   '@mantine/ssr': 4.2.12
   '@remix-run/dev': ^1.6.5
   '@remix-run/eslint-config': ^1.6.5
@@ -28,6 +29,7 @@ specifiers:
 dependencies:
   '@mantine/core': 4.2.12_09d646d943feb6b3811ba4e9083c4c8d
   '@mantine/hooks': 4.2.12_react@18.2.0
+  '@mantine/notifications': 4.2.12_6f4a8d6ca94e576106076b5e39a4b3b7
   '@mantine/ssr': 4.2.12_08741bd84ef3e6fa073678331eea05f2
   '@remix-run/netlify': 1.6.5_react-dom@18.2.0+react@18.2.0
   '@remix-run/node': 1.6.5_react-dom@18.2.0+react@18.2.0
@@ -1562,6 +1564,21 @@ packages:
       react: '>=16.8.0'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@mantine/notifications/4.2.12_6f4a8d6ca94e576106076b5e39a4b3b7:
+    resolution: {integrity: sha512-Ip+8KxH9P1i8uZnhv2zTU+OFJjYBs3122KnVYy6vLsR83agRuY1KzbxjlOVVmP2Dq5aJX2pvefWWjA++NzhNtA==}
+    peerDependencies:
+      '@mantine/core': 4.2.12
+      '@mantine/hooks': 4.2.12
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 4.2.12_09d646d943feb6b3811ba4e9083c4c8d
+      '@mantine/hooks': 4.2.12_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-transition-group: 4.4.5_react-dom@18.2.0+react@18.2.0
     dev: false
 
   /@mantine/ssr/4.2.12_08741bd84ef3e6fa073678331eea05f2:
@@ -3237,6 +3254,13 @@ packages:
   /dom-accessibility-api/0.5.14:
     resolution: {integrity: sha512-NMt+m9zFMPZe0JcY9gN224Qvk6qLIdqex29clBvc/y75ZBX9YA9wNK3frsYvu2DI1xcCIwxwnX+TlsJ2DSOADg==}
     dev: true
+
+  /dom-helpers/5.2.1:
+    resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
+    dependencies:
+      '@babel/runtime': 7.18.9
+      csstype: 3.1.0
+    dev: false
 
   /dom-serializer/1.4.1:
     resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
@@ -6221,7 +6245,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /property-information/6.1.1:
     resolution: {integrity: sha512-hrzC564QIl0r0vy4l6MvRLhafmUowhO/O3KgVSoXIbbA2Sz4j8HGpJc6T2cubRVwMwpdiG/vKGfhT4IixmKN9w==}
@@ -6359,6 +6382,20 @@ packages:
       use-latest: 1.2.1_d9efaa4a57b9ddc48121b447e3437c81
     transitivePeerDependencies:
       - '@types/react'
+    dev: false
+
+  /react-transition-group/4.4.5_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
+    peerDependencies:
+      react: '>=16.6.0'
+      react-dom: '>=16.6.0'
+    dependencies:
+      '@babel/runtime': 7.18.9
+      dom-helpers: 5.2.1
+      loose-envify: 1.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react/18.2.0:

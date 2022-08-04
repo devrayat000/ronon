@@ -23,13 +23,23 @@ export async function contentHOF<T>(
   callback: (accessToken: string) => Promise<T>
 ) {
   const accessToken = await requireCookie(request);
+  console.log("cookie", accessToken);
+
   return callback(accessToken)
     .then((res) => json(res))
     .catch(async (err) => {
+      console.log("error");
+
       if (err.response.data.code === "token_not_valid") {
+        console.log("invalid token");
+
         const { headers, accessToken } = await refreshToken(request);
+        console.log("refreshed");
+
         const resp = await callback(accessToken);
-        return json(resp, { headers });
+        console.log("ran callback");
+
+        return json(resp, { headers, status: 200 });
       }
       const url = new URL(request.url);
       const params = new URLSearchParams([["_next", url.pathname]]);

@@ -12,18 +12,19 @@ import { json, type LoaderFunction } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import AnswerCard from "~/components/questions/answer-card";
-import { requireCookie } from "~/services/cookie.server";
 import { getQuestionById } from "~/services/question.server";
 import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
+import { contentHOF } from "~/services/refresh.server";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const accessToken = await requireCookie(request);
   const id = params.id;
   if (!id) {
     return json({ error: "No id provided!" }, { status: 400 });
   }
-  return await getQuestionById(parseInt(id!), accessToken);
+  return contentHOF(request, (accessToken) =>
+    getQuestionById(parseInt(id!), accessToken)
+  );
 };
 
 type LoaderData = Question & {

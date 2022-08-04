@@ -10,27 +10,24 @@ import {
   Button,
 } from "@mantine/core";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { type ActionArgs, redirect } from "@remix-run/node";
+import { type ActionArgs } from "@remix-run/node";
+import { showNotification, hideNotification } from "@mantine/notifications";
 
 import { api } from "~/modules/axios.server";
-import type { Token } from "~/interfaces/token";
-import { getCookieHeader } from "~/services/cookie-header.server";
 import { AxiosError } from "axios";
+import { useEffect } from "react";
+import { IconCheck } from "@tabler/icons";
 
 export async function action({ request }: ActionArgs) {
   try {
     const formData = await request.formData();
     const { email, password, ...rest } = Object.fromEntries(formData.entries());
-
+    if (!rest.invite_code) {
+      delete rest.invite_code;
+    }
     await api.post("/createUser/", { email, password, ...rest });
-    const loginRes = await api.post<Token>("/token/", { email, password });
-    const { access, refresh } = loginRes.data;
-
-    return redirect(`/questions`, {
-      headers: await getCookieHeader(access, refresh),
-    });
+    return { status: "ok" };
   } catch (error) {
-    console.log(error.message);
     if (error instanceof AxiosError) {
       return { authError: error.response?.data.detail };
     }
@@ -41,6 +38,24 @@ export async function action({ request }: ActionArgs) {
 export default function SignupPage() {
   const actionData = useActionData();
   const [params] = useSearchParams();
+
+  useEffect(() => {
+    if (actionData?.status === "ok") {
+      showNotification({
+        id: "register",
+        title: "Successfully created Account",
+        message:
+          "Wait for the admins to activate your account and then you can log in.",
+        autoClose: 5000,
+        color: "green",
+        icon: <IconCheck />,
+      });
+    }
+
+    return () => {
+      hideNotification("register");
+    };
+  }, [actionData]);
 
   return (
     <Container size={420} my={32}>
@@ -71,6 +86,7 @@ export default function SignupPage() {
       <Paper
         component={Form}
         method="post"
+        // reloadDocument
         withBorder
         shadow="md"
         p={30}
@@ -88,7 +104,7 @@ export default function SignupPage() {
         <TextInput
           label="Email"
           type="email"
-          name="password"
+          name="email"
           variant="filled"
           placeholder="you@mantine.dev"
           required

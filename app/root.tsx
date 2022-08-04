@@ -19,6 +19,7 @@ import {
   Button,
   createStyles,
 } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 
 import MyShell from "./components/common/shell";
 import logo from "~/assets/logo.png";
@@ -28,14 +29,11 @@ import { getUser } from "./services/user.server";
 import { contentHOF } from "./services/refresh.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const accessToken = await getCookie(request);
-  if (!accessToken) return null;
-  const token = decodeToken(accessToken);
-  if (!token || !("user_id" in token)) return null;
-
-  const user = await contentHOF(request, (accessToken) =>
-    getUser(token.user_id, accessToken)
-  );
+  const user = await contentHOF(request, async (accessToken) => {
+    const token = decodeToken(accessToken);
+    if (!token || !("user_id" in token)) return null;
+    return getUser(token.user_id, accessToken);
+  });
   return user;
 }
 
@@ -84,19 +82,21 @@ export default function App() {
           withNormalizeCSS
           withCSSVariables
         >
-          <Global
-            styles={{
-              "html, body": {
-                overflowY: "hidden",
-              },
-              body: {
-                margin: 0,
-              },
-            }}
-          />
-          <MyShell>
-            <Outlet />
-          </MyShell>
+          <NotificationsProvider>
+            <Global
+              styles={{
+                "html, body": {
+                  overflowY: "hidden",
+                },
+                body: {
+                  margin: 0,
+                },
+              }}
+            />
+            <MyShell>
+              <Outlet />
+            </MyShell>
+          </NotificationsProvider>
         </MantineProvider>
         <ScrollRestoration />
         <Scripts />

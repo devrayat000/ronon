@@ -13,14 +13,13 @@ import { ArrowBarUp } from "tabler-icons-react";
 
 import { ScrollContext } from "~/components/common/shell";
 import { CommentHtml } from "~/components/question";
-import { requireCookie } from "~/services/cookie.server";
 import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
 import { getQuestions } from "~/services/question.server";
+import { contentHOF } from "~/services/refresh.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const accessToken = await requireCookie(request);
-  return await getQuestions(accessToken);
+  return contentHOF(request, (accessToken) => getQuestions(accessToken));
 };
 
 type LoaderData = Question & {

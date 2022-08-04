@@ -3,26 +3,27 @@ import { Button, Group, Paper, Textarea } from "@mantine/core";
 import { type ActionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 
-import { requireCookie } from "~/services/cookie.server";
 import { requireId } from "~/modules/jwt.server";
 import { api } from "~/modules/axios.server";
+import { contentHOF } from "~/services/refresh.server";
 
 export async function action({ request, params }: ActionArgs) {
   const formData = await request.formData();
   const PQue = params.id;
   const { Answer } = Object.fromEntries(formData.entries());
-  const accessToken = await requireCookie(request);
-  const User = requireId(accessToken);
 
-  return api
-    .post(
-      "/createAnswer/",
-      { PQue, Answer, User },
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    )
-    .then((r) => r.data);
+  return contentHOF(request, async (accessToken) => {
+    const User = requireId(accessToken);
+    return api
+      .post(
+        "/createAnswer/",
+        { "PQue ID": PQue, Answer, User },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      )
+      .then((r) => r.data);
+  });
 }
 
 export default function AnswerQuestionPage() {
@@ -39,6 +40,8 @@ export default function AnswerQuestionPage() {
   return (
     <Paper
       component={Form}
+      reloadDocument
+      replace
       method="post"
       withBorder
       mt="xl"

@@ -3,15 +3,16 @@ import { useLoaderData, useOutletContext } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 
 import { getUserQuestions } from "~/services/user.server";
-import { requireCookie } from "~/services/cookie.server";
 import { requireId } from "~/modules/jwt.server";
 import type { User } from "~/interfaces/user";
 import type { Question } from "~/interfaces/question";
+import { contentHOF } from "~/services/refresh.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const accessToken = await requireCookie(request);
-  const id = requireId(accessToken);
-  return getUserQuestions(id, accessToken);
+  return contentHOF(request, (accessToken) => {
+    const id = requireId(accessToken);
+    return getUserQuestions(id, accessToken);
+  });
 }
 
 type LoaderData = Pick<Question, "Que">[];

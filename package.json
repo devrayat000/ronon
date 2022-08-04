@@ -10,6 +10,7 @@
   "dependencies": {
     "@mantine/core": "4.2.12",
     "@mantine/hooks": "4.2.12",
+    "@mantine/notifications": "4.2.12",
     "@mantine/ssr": "4.2.12",
     "@remix-run/netlify": "^1.6.5",
     "@remix-run/node": "^1.6.5",

@@ -48,7 +48,7 @@ export default function AnswerQuestionPage() {
       p="lg"
       ref={targetRef}
     >
-      <Textarea placeholder="Write answer..." name="Answer" />
+      <Textarea placeholder="Write answer..." name="Answer" variant="filled" />
       <Group position="right" mt="md">
         <Button type="submit">Submit Answer</Button>
       </Group>

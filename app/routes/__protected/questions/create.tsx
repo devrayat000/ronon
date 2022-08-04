@@ -50,7 +50,7 @@ export default function CreateQuestionPage() {
   return (
     <Container>
       <Paper component={Form} method="post" withBorder mt="xl" p="lg">
-        <Textarea placeholder="Write question..." name="Que" />
+        <Textarea placeholder="Write question..." name="Que" variant="filled" />
         <Group position="right" mt="md">
           <Button type="submit">Ask</Button>
         </Group>

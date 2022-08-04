@@ -15,6 +15,7 @@ import { type ActionArgs, redirect } from "@remix-run/node";
 import type { Token } from "~/interfaces/token";
 import { api } from "~/modules/axios.server";
 import { getCookieHeader } from "~/services/cookie-header.server";
+import { AxiosError } from "axios";
 
 export async function action({ request }: ActionArgs) {
   try {
@@ -34,7 +35,10 @@ export async function action({ request }: ActionArgs) {
     });
   } catch (error) {
     console.log(error);
-    return { authError: error?.data?.message ?? "User may not exist" };
+    if (error instanceof AxiosError) {
+      return { authError: error.response?.data.detail };
+    }
+    return { authError: "User may not exist" };
   }
 }
 

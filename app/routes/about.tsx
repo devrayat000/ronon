@@ -137,7 +137,13 @@ export default function AboutPage() {
               কলেজের কয়েকজন শিক্ষার্থী। রণনের সূচনা যাদের হাত ধরেঃ
             </Text>
           </Box>
-          <SimpleGrid cols={3}>
+          <SimpleGrid
+            cols={3}
+            breakpoints={[
+              { maxWidth: "md", cols: 2 },
+              { maxWidth: "sm", cols: 1 },
+            ]}
+          >
             {owners.map((owner) => (
               <OwnerInfoAction key={owner.name} {...owner} />
             ))}

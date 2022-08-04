@@ -17,10 +17,17 @@ export default function PricingPage() {
         Pricing
       </Title>
 
-      <SimpleGrid cols={3} mt="xl">
-        <PriceCard duration="Monthly" price={100} />
-        <PriceCard duration="Half Yearly" price={90} />
-        <PriceCard duration="Yearly" price={75} />
+      <SimpleGrid
+        cols={3}
+        breakpoints={[
+          { maxWidth: "md", cols: 2 },
+          { maxWidth: "sm", cols: 1 },
+        ]}
+        mt="xl"
+      >
+        <PriceCard duration="Monthly" price={200} />
+        <PriceCard duration="Half Yearly" price={1000} />
+        <PriceCard duration="Yearly" price={2000} />
       </SimpleGrid>
     </Container>
   );

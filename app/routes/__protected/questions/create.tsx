@@ -1,6 +1,6 @@
 import { Button, Container, Group, Paper, Textarea } from "@mantine/core";
 import { hideNotification, showNotification } from "@mantine/notifications";
-import { type ActionArgs } from "@remix-run/node";
+import type { MetaFunction, ActionArgs } from "@remix-run/node";
 import { Form, useTransition } from "@remix-run/react";
 import { IconCheck } from "@tabler/icons";
 import { useEffect } from "react";
@@ -8,6 +8,12 @@ import { api } from "~/modules/axios.server";
 
 import { requireId } from "~/modules/jwt.server";
 import { contentHOF } from "~/services/refresh.server";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Ask Question - Ronon",
+  };
+};
 
 export async function action({ request }: ActionArgs) {
   const formData = await request.formData();

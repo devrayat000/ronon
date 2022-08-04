@@ -9,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconCircleCheck, IconCircleDashed } from "@tabler/icons";
-import type { HeadersFunction } from "@remix-run/node";
+import type { HeadersFunction, MetaFunction } from "@remix-run/node";
 
 import OwnerInfoAction, {
   type OwnerInfoActionProps,
@@ -26,6 +26,14 @@ export const headers: HeadersFunction = () => {
   return {
     "Cache-Control":
       "max-age=86400, s-maxage=604800, stale-while-revalidate=604800",
+  };
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "About Us - Ronon",
+    description:
+      "রণন একটি শিক্ষামূলক ওয়েবসাইট। শিক্ষার্থীদের যেকোনো জিজ্ঞাসার উত্তর দেওয়ার জন্যই রণনের উদ্ভব। বাংলাদেশের সবচেয়ে বড় শিক্ষাবিষয়ক কমিউনিটি গড়ার লক্ষ্য নিয়ে কাজ করে যাচ্ছে রণন।",
   };
 };
 

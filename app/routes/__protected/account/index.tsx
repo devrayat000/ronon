@@ -1,13 +1,5 @@
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import { Link, useLoaderData, useOutletContext } from "@remix-run/react";
+import { Box, Container, Paper, Stack, Text, Title } from "@mantine/core";
+import { useLoaderData, useOutletContext } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 
 import { getUserQuestions } from "~/services/user.server";
@@ -59,9 +51,17 @@ export default function ProfilePage() {
         </Text>
       </Stack>
 
-      <Button component={Link} to="points" mt="xl">
-        See Points
-      </Button>
+      <Stack mt="xl">
+        <Text>
+          <b>Points Earned:</b> {user["Points Earned"]}
+        </Text>
+        <Text>
+          <b>Points Withdrawn:</b> {user["Points Withdrawn"]}
+        </Text>
+        <Text>
+          <b>Points to be withdrawn:</b> {user["Points to be withdrawn"]}
+        </Text>
+      </Stack>
 
       <Box mt="xl">
         <Title order={3}>Questions Asked:</Title>

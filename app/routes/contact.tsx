@@ -8,7 +8,7 @@ import {
   createStyles,
   Container,
 } from "@mantine/core";
-import type { HeadersFunction } from "@remix-run/node";
+import type { HeadersFunction, MetaFunction } from "@remix-run/node";
 
 import { ContactIconsList } from "~/components/contact/owener";
 
@@ -16,6 +16,13 @@ export const headers: HeadersFunction = () => {
   return {
     "Cache-Control":
       "max-age=86400, s-maxage=604800, stale-while-revalidate=604800",
+  };
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Contact Us - Ronon",
+    description: "",
   };
 };
 

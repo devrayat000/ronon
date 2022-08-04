@@ -6,7 +6,11 @@ import {
   IconUserCheck,
   IconZoomQuestion,
 } from "@tabler/icons";
-import type { HeadersFunction, LinksFunction } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LinksFunction,
+  MetaFunction,
+} from "@remix-run/node";
 
 import GotoSection from "~/components/home/goto";
 import HeroSection from "~/components/home/hero";
@@ -21,6 +25,14 @@ export const links: LinksFunction = () => {
       type: "image/png",
     },
   ];
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Welcome to Ronon - Ronon",
+    description:
+      "A startup educational website which aspires to become the biggest educational community in Bangladesh.",
+  };
 };
 
 export const headers: HeadersFunction = () => {

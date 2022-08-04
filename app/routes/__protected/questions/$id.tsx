@@ -8,7 +8,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { json, type LoaderFunction } from "@remix-run/node";
+import { json, type MetaFunction, type LoaderFunction } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
 import AnswerCard from "~/components/questions/answer-card";
@@ -16,6 +16,12 @@ import { getQuestionById } from "~/services/question.server";
 import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
 import { contentHOF } from "~/services/refresh.server";
+
+export const meta: MetaFunction = ({ data }) => {
+  return {
+    title: `${data.Que} - Ronon`,
+  };
+};
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const id = params.id;

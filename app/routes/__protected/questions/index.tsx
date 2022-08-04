@@ -6,7 +6,7 @@ import {
   Stack,
   Transition,
 } from "@mantine/core";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useContext } from "react";
 import { ArrowBarUp } from "tabler-icons-react";
@@ -17,6 +17,13 @@ import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
 import { getQuestions } from "~/services/question.server";
 import { contentHOF } from "~/services/refresh.server";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Questions - Ronon",
+    description: "",
+  };
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   return contentHOF(request, (accessToken) => getQuestions(accessToken));

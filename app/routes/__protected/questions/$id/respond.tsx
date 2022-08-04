@@ -1,11 +1,17 @@
 import { useEffect, useRef } from "react";
 import { Button, Group, Paper, Textarea } from "@mantine/core";
-import { type ActionArgs } from "@remix-run/node";
+import type { MetaFunction, ActionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 
 import { requireId } from "~/modules/jwt.server";
 import { api } from "~/modules/axios.server";
 import { contentHOF } from "~/services/refresh.server";
+
+export const meta: MetaFunction = ({ data }) => {
+  return {
+    title: `Answer: ${data.Que} - Ronon`,
+  };
+};
 
 export async function action({ request, params }: ActionArgs) {
   const formData = await request.formData();

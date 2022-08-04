@@ -1,19 +1,12 @@
 import {
   Container,
-  Stack,
   Title,
-  Text,
   Button,
   NumberInput,
   Box,
+  TextInput,
 } from "@mantine/core";
-import {
-  Form,
-  useActionData,
-  useOutletContext,
-  useTransition,
-} from "@remix-run/react";
-import type { User } from "~/interfaces/user";
+import { Form, useActionData, useTransition } from "@remix-run/react";
 
 import type { ActionArgs } from "@remix-run/node";
 import { contentHOF } from "~/services/refresh.server";
@@ -40,7 +33,6 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function PointsPage() {
-  const { user } = useOutletContext<{ user: User }>();
   const actionData = useActionData();
   const transition = useTransition();
 
@@ -66,25 +58,21 @@ export default function PointsPage() {
       <Title order={1} align="center">
         Points
       </Title>
-      <Stack mt="xl">
-        <Text>
-          <b>Points Earned:</b> {user["Points Earned"]}
-        </Text>
-        <Text>
-          <b>Points Withdrawn:</b> {user["Points Withdrawn"]}
-        </Text>
-        <Text>
-          <b>Points to be withdrawn:</b> {user["Points to be withdrawn"]}
-        </Text>
-      </Stack>
 
       <Box component={Form}>
-        <input type="hidden" name="Phone" value={user["Phone Number"]} />
+        <TextInput
+          label="Phone Number"
+          placeholder="01xxxxxxxxx"
+          name="Phone"
+          required
+          variant="filled"
+        />
         <NumberInput
           label="Withdraw Points"
           placeholder="10"
           name="Point Withdrawn"
           required
+          mt="md"
           variant="filled"
           hideControls
         />

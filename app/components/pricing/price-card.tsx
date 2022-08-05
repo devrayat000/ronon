@@ -28,7 +28,7 @@ const PriceCard = ({ price, duration }: Props) => {
     <Paper withBorder radius="md" p="md">
       <Text>{duration}</Text>
       <Text mt="xl" color="dimmed">
-        <span className={classes.price}>৳{price}</span>/month
+        <span className={classes.price}>৳{price}</span>
       </Text>
       <Button fullWidth mt="md">
         Subscribe

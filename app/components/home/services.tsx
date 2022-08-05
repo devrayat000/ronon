@@ -43,7 +43,7 @@ export const MOCKDATA = [
   },
   {
     icon: IconMessage2,
-    title: "24/7 Support",
+    title: "Get 24/7 from our community",
     description:
       "Rapidash usually can be seen casually cantering in the fields and plains, Skitty is known to chase around after its own tail",
   },

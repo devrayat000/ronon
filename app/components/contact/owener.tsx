@@ -2,11 +2,12 @@ import {
   createStyles,
   ThemeIcon,
   Text,
-  SimpleGrid,
   Box,
   Stack,
+  List,
+  type MantineTheme,
 } from "@mantine/core";
-import { IconSun, IconPhone, IconMapPin, IconAt } from "@tabler/icons";
+import { IconAt } from "@tabler/icons";
 
 type ContactIconVariant = "white" | "gradient";
 
@@ -46,9 +47,9 @@ const useStyles = createStyles((theme, { variant }: ContactIconStyles) => ({
 
 interface ContactIconProps
   extends Omit<React.ComponentPropsWithoutRef<"div">, "title"> {
-  icon: React.FC<any>;
+  icon?: React.FC<any>;
   title: React.ReactNode;
-  description: React.ReactNode;
+  description: React.ReactNode | ((theme: MantineTheme) => React.ReactNode);
   variant?: ContactIconVariant;
 }
 
@@ -60,24 +61,27 @@ function ContactIcon({
   className,
   ...others
 }: ContactIconProps) {
-  const { classes, cx } = useStyles({ variant });
+  const { classes, cx, theme } = useStyles({ variant });
   return (
     <div className={cx(classes.wrapper, className)} {...others}>
-      {variant === "gradient" ? (
-        <ThemeIcon size={40} radius="md" className={classes.icon}>
-          <Icon size={24} />
-        </ThemeIcon>
-      ) : (
-        <Box mr="md">
-          <Icon size={24} />
-        </Box>
-      )}
+      {Icon &&
+        (variant === "gradient" ? (
+          <ThemeIcon size={40} radius="md" className={classes.icon}>
+            {<Icon size={24} />}
+          </ThemeIcon>
+        ) : (
+          <Box mr="md">{<Icon size={24} />}</Box>
+        ))}
 
       <div>
         <Text size="xs" className={classes.title}>
           {title}
         </Text>
-        <Text className={classes.description}>{description}</Text>
+        {typeof description === "function" ? (
+          description(theme)
+        ) : (
+          <Text className={classes.description}>{description}</Text>
+        )}
       </div>
     </div>
   );
@@ -88,11 +92,27 @@ interface ContactIconsListProps {
   variant?: ContactIconVariant;
 }
 
-const MOCKDATA = [
-  { title: "Email", description: "hello@mantine.dev", icon: IconAt },
-  { title: "Phone", description: "+49 (800) 335 35 35", icon: IconPhone },
-  { title: "Address", description: "844 Morris Park avenue", icon: IconMapPin },
-  { title: "Working hours", description: "8 a.m. – 11 p.m.", icon: IconSun },
+const MOCKDATA: ContactIconProps[] = [
+  { title: "Primary Email", description: "ronon.info@gmail", icon: IconAt },
+  {
+    title: "Secondary Email",
+    description: (theme) => (
+      <List icon={<IconAt color="white" />}>
+        <List.Item sx={{ color: "white" }}>tareqhs01@gmail.com</List.Item>
+        <List.Item sx={{ color: "white" }}>mhmhasanmahmud2@gmail.com</List.Item>
+        <List.Item sx={{ color: "white" }}>atikfaisal20@gmail.com</List.Item>
+        <List.Item sx={{ color: "white" }}>
+          amanullahasif2001@gmail.com
+        </List.Item>
+        <List.Item sx={{ color: "white" }}>
+          jubayermaruf8012@gmail.com
+        </List.Item>
+        <List.Item sx={{ color: "white" }}>
+          mdshakibulhasancse20@gmail.com
+        </List.Item>
+      </List>
+    ),
+  },
 ];
 
 export function ContactIconsList({
@@ -103,32 +123,4 @@ export function ContactIconsList({
     <ContactIcon key={index} variant={variant} {...item} />
   ));
   return <Stack>{items}</Stack>;
-}
-
-export function ContactIcons() {
-  return (
-    <SimpleGrid cols={2} breakpoints={[{ maxWidth: 755, cols: 1 }]}>
-      <Box
-        sx={(theme) => ({
-          padding: theme.spacing.xl,
-          borderRadius: theme.radius.md,
-          backgroundColor: theme.white,
-        })}
-      >
-        <ContactIconsList />
-      </Box>
-
-      <Box
-        sx={(theme) => ({
-          padding: theme.spacing.xl,
-          borderRadius: theme.radius.md,
-          backgroundImage: `linear-gradient(135deg, ${
-            theme.colors[theme.primaryColor][6]
-          } 0%, ${theme.colors[theme.primaryColor][4]} 100%)`,
-        })}
-      >
-        <ContactIconsList variant="white" />
-      </Box>
-    </SimpleGrid>
-  );
 }

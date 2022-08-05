@@ -3,7 +3,7 @@ import { hideNotification, showNotification } from "@mantine/notifications";
 import type { MetaFunction, ActionArgs } from "@remix-run/node";
 import { Form, useTransition } from "@remix-run/react";
 import { IconCheck } from "@tabler/icons";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { api } from "~/modules/axios.server";
 
 import { requireId } from "~/modules/jwt.server";
@@ -35,6 +35,7 @@ export async function action({ request }: ActionArgs) {
 
 export default function CreateQuestionPage() {
   const transition = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (transition.state === "loading" && transition.type === "actionReload") {
@@ -46,6 +47,7 @@ export default function CreateQuestionPage() {
         color: "green",
         icon: <IconCheck />,
       });
+      formRef.current?.reset();
     }
 
     return () => {
@@ -55,7 +57,14 @@ export default function CreateQuestionPage() {
 
   return (
     <Container>
-      <Paper component={Form} method="post" withBorder mt="xl" p="lg">
+      <Paper
+        ref={formRef}
+        component={Form}
+        method="post"
+        withBorder
+        mt="xl"
+        p="lg"
+      >
         <Textarea placeholder="Write question..." name="Que" variant="filled" />
         <Group position="right" mt="md">
           <Button type="submit">Ask</Button>

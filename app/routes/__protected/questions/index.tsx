@@ -26,7 +26,9 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return contentHOF(request, (accessToken) => getQuestions(accessToken));
+  return contentHOF(request, (accessToken) =>
+    getQuestions(accessToken).then((r) => r.reverse())
+  );
 };
 
 type LoaderData = Question & {

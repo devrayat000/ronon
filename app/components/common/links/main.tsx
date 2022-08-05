@@ -33,6 +33,7 @@ const MainLinks = (props: Props) => {
         size="sm"
         variant="subtle"
         component={NavLink}
+        reloadDocument
         to="/"
       >
         Home
@@ -42,6 +43,7 @@ const MainLinks = (props: Props) => {
         size="sm"
         variant="subtle"
         component={NavLink}
+        reloadDocument
         to="/questions"
       >
         Questions
@@ -51,6 +53,7 @@ const MainLinks = (props: Props) => {
         size="sm"
         variant="subtle"
         component={NavLink}
+        reloadDocument
         to="/about"
       >
         About
@@ -60,6 +63,7 @@ const MainLinks = (props: Props) => {
         size="sm"
         variant="subtle"
         component={NavLink}
+        reloadDocument
         to="/contact"
       >
         Contact Us
@@ -69,6 +73,7 @@ const MainLinks = (props: Props) => {
         size="sm"
         variant="subtle"
         component={NavLink}
+        reloadDocument
         to="/pricing"
       >
         Pricing

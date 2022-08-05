@@ -7,9 +7,9 @@ import { requireId } from "~/modules/jwt.server";
 import { api } from "~/modules/axios.server";
 import { contentHOF } from "~/services/refresh.server";
 
-export const meta: MetaFunction = ({ data }) => {
+export const meta: MetaFunction = ({ parentsData }) => {
   return {
-    title: `Answer: ${data.Que} - Ronon`,
+    title: `Answer: ${parentsData.Que} - Ronon`,
   };
 };
 

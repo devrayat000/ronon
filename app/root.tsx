@@ -23,13 +23,12 @@ import { NotificationsProvider } from "@mantine/notifications";
 
 import MyShell from "./components/common/shell";
 import logo from "~/assets/logo.png";
-import { getCookie } from "./services/cookie.server";
 import { decodeToken } from "./modules/jwt.server";
 import { getUser } from "./services/user.server";
-import { contentHOF } from "./services/refresh.server";
+import { rootHOF } from "./services/refresh.server";
 
 export async function loader({ request }: LoaderArgs) {
-  const user = await contentHOF(request, async (accessToken) => {
+  const user = await rootHOF(request, async (accessToken) => {
     const token = decodeToken(accessToken);
     if (!token || !("user_id" in token)) return null;
     return getUser(token.user_id, accessToken);

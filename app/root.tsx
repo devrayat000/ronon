@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useNavigate,
 } from "@remix-run/react";
 import {
   MantineProvider,
@@ -63,7 +64,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export default function App() {
+function Document(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -92,9 +93,7 @@ export default function App() {
                 },
               }}
             />
-            <MyShell>
-              <Outlet />
-            </MyShell>
+            <MyShell>{props.children}</MyShell>
           </NotificationsProvider>
         </MantineProvider>
         <ScrollRestoration />
@@ -102,6 +101,14 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
   );
 }
 
@@ -147,63 +154,30 @@ const useCatchStyles = createStyles((theme) => ({
 }));
 
 export function CatchBoundary() {
+  const navigate = useNavigate();
   const caught = useCatch();
   const { classes } = useCatchStyles();
 
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <MantineProvider
-          theme={{
-            colorScheme: "light",
-            fontFamily: "Inter, " + DEFAULT_THEME.fontFamily,
-            primaryColor: "violet",
-          }}
-          withGlobalStyles
-          withNormalizeCSS
-          withCSSVariables
+    <Document>
+      <Container className={classes.root}>
+        <div className={classes.label}>{caught.status}</div>
+        <Title className={classes.title}>Nothing to see here.</Title>
+        <Text
+          color="dimmed"
+          size="lg"
+          align="center"
+          className={classes.description}
         >
-          <NotificationsProvider>
-            <Global
-              styles={{
-                "html, body": {
-                  overflowY: "hidden",
-                },
-                body: {
-                  margin: 0,
-                },
-              }}
-            />
-            <MyShell>
-              <Container className={classes.root}>
-                <div className={classes.label}>{caught.status}</div>
-                <Title className={classes.title}>Nothing to see here.</Title>
-                <Text
-                  color="dimmed"
-                  size="lg"
-                  align="center"
-                  className={classes.description}
-                >
-                  Unfortunately, this is only a 404 page. You may have mistyped
-                  the address, or the page has been moved to another URL.
-                </Text>
-                <Group position="center">
-                  <Button variant="subtle" size="md">
-                    Take me back
-                  </Button>
-                </Group>
-              </Container>
-            </MyShell>
-          </NotificationsProvider>
-        </MantineProvider>
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+          Unfortunately, this is only a 404 page. You may have mistyped the
+          address, or the page has been moved to another URL.
+        </Text>
+        <Group position="center">
+          <Button variant="subtle" size="md" onClick={() => navigate(-1)}>
+            Take me back
+          </Button>
+        </Group>
+      </Container>
+    </Document>
   );
 }

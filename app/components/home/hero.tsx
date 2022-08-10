@@ -79,7 +79,7 @@ const HeroSection = (props: Props) => {
             <Button
               color="pink"
               component={Link}
-              to="login"
+              to="about"
               className={classes.primaryAction}
             >
               Start Exploring

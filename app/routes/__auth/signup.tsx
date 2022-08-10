@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mantine/core";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { type ActionArgs } from "@remix-run/node";
+import { redirect, type ActionArgs } from "@remix-run/node";
 import { showNotification, hideNotification } from "@mantine/notifications";
 
 import { api } from "~/modules/axios.server";
@@ -26,7 +26,9 @@ export async function action({ request }: ActionArgs) {
       delete rest.invite_code;
     }
     await api.post("/createUser/", { email, password, ...rest });
-    return { status: "ok" };
+    return redirect("https://forms.gle/Z2UCNro3MRc2KAcP9", {
+      status: 303,
+    });
   } catch (error) {
     if (error instanceof AxiosError) {
       return { authError: error.response?.data.detail };

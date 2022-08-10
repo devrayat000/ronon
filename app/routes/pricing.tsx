@@ -25,7 +25,7 @@ export default function PricingPage() {
         ]}
         mt="xl"
       >
-        <PriceCard duration="Monthly" price={200} />
+        <PriceCard duration="Monthly" price={220} />
         <PriceCard duration="Half Yearly" price={1000} />
         <PriceCard duration="Yearly" price={2000} />
       </SimpleGrid>

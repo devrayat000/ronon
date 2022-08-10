@@ -30,7 +30,14 @@ const PriceCard = ({ price, duration }: Props) => {
       <Text mt="xl" color="dimmed">
         <span className={classes.price}>৳{price}</span>
       </Text>
-      <Button fullWidth mt="md">
+      <Button
+        fullWidth
+        mt="md"
+        component="a"
+        href="https://forms.gle/Z2UCNro3MRc2KAcP9"
+        target="_blank"
+        rel="noreferer"
+      >
         Subscribe
       </Button>
       <Divider my="lg" />
@@ -40,8 +47,8 @@ const PriceCard = ({ price, duration }: Props) => {
         size="sm"
         icon={<IconCheck size={20} color={theme.colors.green[6]} />}
       >
-        <List.Item>Access to basic interactive courses</List.Item>
-        <List.Item>Everything in Free</List.Item>
+        <List.Item>Access to every content of our website</List.Item>
+        <List.Item>Access to our facebook group</List.Item>
         <List.Item>Community Support</List.Item>
       </List>
     </Paper>

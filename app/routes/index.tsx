@@ -81,7 +81,7 @@ export default function Index() {
           {
             icon: IconUserCheck,
             title: "24/7 Support",
-            description: "Get 24/7 from our community",
+            description: "Get 24/7 Support from our community",
           },
         ]}
       />

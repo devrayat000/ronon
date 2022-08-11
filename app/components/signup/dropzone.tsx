@@ -66,6 +66,7 @@ export default function PhotoUpload() {
       onReject={(files) => console.log("rejected files", files)}
       maxSize={3 * 1024 ** 2}
       mt="md"
+      multiple={false}
       accept={IMAGE_MIME_TYPE}
     >
       {(status) => dropzoneChildren(status, theme)}

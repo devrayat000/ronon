@@ -4,6 +4,7 @@ export interface User {
   "User ID": string;
   Email: string;
   Name: string;
+  profile_pic?: string;
   "HSC Year"?: string;
   "Points Earned": number;
   "Points Withdrawn": number;

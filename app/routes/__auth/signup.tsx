@@ -10,22 +10,38 @@ import {
   Button,
 } from "@mantine/core";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { redirect, type ActionArgs } from "@remix-run/node";
+import {
+  redirect,
+  unstable_parseMultipartFormData,
+  type ActionArgs,
+} from "@remix-run/node";
 import { showNotification, hideNotification } from "@mantine/notifications";
-
-import { api } from "~/modules/axios.server";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { IconCheck } from "@tabler/icons";
 
+import { api } from "~/modules/axios.server";
+import { uploadHandler } from "~/services/upload-handler.server";
+import PhotoUpload from "~/components/signup/dropzone";
+
 export async function action({ request }: ActionArgs) {
   try {
-    const formData = await request.formData();
-    const { email, password, ...rest } = Object.fromEntries(formData.entries());
+    const formData = await unstable_parseMultipartFormData(
+      request,
+      uploadHandler // <-- we'll look at this deeper next
+    );
+    const { email, password, profile_pic, ...rest } = Object.fromEntries(
+      formData.entries()
+    );
     if (!rest.invite_code) {
       delete rest.invite_code;
     }
-    await api.post("/createUser/", { email, password, ...rest });
+    await api.post("/createUser/", {
+      email,
+      password,
+      profile_pic: (profile_pic as any as any[])[0],
+      ...rest,
+    });
     return redirect("https://forms.gle/Z2UCNro3MRc2KAcP9", {
       status: 303,
     });
@@ -89,6 +105,7 @@ export default function SignupPage() {
         component={Form}
         method="post"
         // reloadDocument
+        encType="multipart/form-data"
         withBorder
         shadow="md"
         p={30}
@@ -155,6 +172,7 @@ export default function SignupPage() {
           maxLength={32}
           mt="md"
         />
+        <PhotoUpload />
         <Checkbox
           mt="md"
           label={

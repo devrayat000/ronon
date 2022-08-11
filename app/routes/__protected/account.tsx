@@ -1,4 +1,13 @@
-import { Box, Container, Paper, Stack, Text, Title } from "@mantine/core";
+import {
+  Box,
+  Container,
+  Paper,
+  Stack,
+  Text,
+  Title,
+  Image,
+  SimpleGrid,
+} from "@mantine/core";
 import { useLoaderData, useOutletContext } from "@remix-run/react";
 import type { LoaderArgs } from "@remix-run/node";
 
@@ -26,30 +35,46 @@ export default function ProfilePage() {
       <Title order={1} align="center">
         Profile
       </Title>
-      <Stack mt="xl">
-        <Text>
-          <b>Name:</b> {user.Name}
-        </Text>
-        <Text>
-          <b>Email:</b> {user.Email}
-        </Text>
-        <Text>
-          <b>Phone:</b> {user["Phone Number"]}
-        </Text>
-        {user["HSC Year"] && (
+      <SimpleGrid cols={2} breakpoints={[{ cols: 1, maxWidth: "md" }]}>
+        <Stack mt="xl">
           <Text>
-            <b>HSC:</b> {user["HSC Year"]}
+            <b>Name:</b> {user.Name}
           </Text>
-        )}
-        {user["Invite Code"] && (
           <Text>
-            <b>Invite Code:</b> {user["Invite Code"]}
+            <b>Email:</b> {user.Email}
           </Text>
+          <Text>
+            <b>Phone:</b> {user["Phone Number"]}
+          </Text>
+          {user["HSC Year"] && (
+            <Text>
+              <b>HSC:</b> {user["HSC Year"]}
+            </Text>
+          )}
+          {user["Invite Code"] && (
+            <Text>
+              <b>Invite Code:</b> {user["Invite Code"]}
+            </Text>
+          )}
+          <Text>
+            <b>Since:</b> {new Date(user["Date Joined"]).getFullYear()}
+          </Text>
+        </Stack>
+
+        {user.profile_pic && (
+          <Image
+            src={user.profile_pic}
+            alt={user.Name}
+            radius="md"
+            width="50%"
+            sx={(theme) => ({
+              [theme.fn.smallerThan("md")]: {
+                gridRowStart: 1,
+              },
+            })}
+          />
         )}
-        <Text>
-          <b>Since:</b> {new Date(user["Date Joined"]).getFullYear()}
-        </Text>
-      </Stack>
+      </SimpleGrid>
 
       <Stack mt="xl">
         <Text>

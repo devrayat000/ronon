@@ -16,10 +16,14 @@ const UserAvatar = (props: Props) => {
       placement="end"
       transition="pop-top-right"
       control={
-        <ActionIcon>
-          <Avatar radius="xl" size="md">
-            {user.Name.at(0)?.toUpperCase()}
-          </Avatar>
+        <ActionIcon radius="xl" size="xl">
+          {user.profile_pic ? (
+            <Avatar src={user.profile_pic} radius="xl" size="md" />
+          ) : (
+            <Avatar radius="xl" size="md">
+              {user.Name.at(0)?.toUpperCase()}
+            </Avatar>
+          )}
         </ActionIcon>
       }
     >

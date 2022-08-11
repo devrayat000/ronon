@@ -1,10 +1,11 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@mantine/core': 4.2.12
-  '@mantine/hooks': 4.2.12
+  '@mantine/core': 4.2.x
+  '@mantine/dropzone': 4.2.x
+  '@mantine/hooks': 4.2.x
   '@mantine/notifications': 4.2.12
-  '@mantine/ssr': 4.2.12
+  '@mantine/ssr': 4.2.x
   '@remix-run/dev': ^1.6.5
   '@remix-run/eslint-config': ^1.6.5
   '@remix-run/netlify': ^1.6.7
@@ -28,6 +29,7 @@ specifiers:
 
 dependencies:
   '@mantine/core': 4.2.12_09d646d943feb6b3811ba4e9083c4c8d
+  '@mantine/dropzone': 4.2.12_6f4a8d6ca94e576106076b5e39a4b3b7
   '@mantine/hooks': 4.2.12_react@18.2.0
   '@mantine/notifications': 4.2.12_6f4a8d6ca94e576106076b5e39a4b3b7
   '@mantine/ssr': 4.2.12_08741bd84ef3e6fa073678331eea05f2
@@ -1558,6 +1560,21 @@ packages:
       - '@types/react'
     dev: false
 
+  /@mantine/dropzone/4.2.12_6f4a8d6ca94e576106076b5e39a4b3b7:
+    resolution: {integrity: sha512-zGxur1DUeiQm3t4jFam4WI1ZNbrNJ/lMV1ycOJj6CjnWNvzcJwiTBvLDPsMr0fiF4vxEQMlv+H7xwhuJedmJfw==}
+    peerDependencies:
+      '@mantine/core': 4.2.12
+      '@mantine/hooks': 4.2.12
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 4.2.12_09d646d943feb6b3811ba4e9083c4c8d
+      '@mantine/hooks': 4.2.12_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-dropzone: 11.7.1_react@18.2.0
+    dev: false
+
   /@mantine/hooks/4.2.12_react@18.2.0:
     resolution: {integrity: sha512-/2GOsgv1tAUFBXOUV0YBZdDZHj3pHN82Sv1oI/hJMjfIT3ZkGeeiJO8Cw9cBcn76t6caP6Czi3hcuKhjz71O+A==}
     peerDependencies:
@@ -2543,6 +2560,11 @@ packages:
     engines: {node: '>= 4.5.0'}
     hasBin: true
     dev: true
+
+  /attr-accept/2.2.2:
+    resolution: {integrity: sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==}
+    engines: {node: '>=4'}
+    dev: false
 
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
@@ -4133,6 +4155,13 @@ packages:
     dependencies:
       flat-cache: 3.0.4
     dev: true
+
+  /file-selector/0.4.0:
+    resolution: {integrity: sha512-iACCiXeMYOvZqlF1kTiYINzgepRBymz1wwjiuup9u9nayhb6g4fSwiyJ/6adli+EPwrWtpgQAh2PoS7HukEGEg==}
+    engines: {node: '>= 10'}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
@@ -6342,6 +6371,18 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-dropzone/11.7.1_react@18.2.0:
+    resolution: {integrity: sha512-zxCMwhfPy1olUEbw3FLNPLhAm/HnaYH5aELIEglRbqabizKAdHs0h+WuyOpmA+v1JXn0++fpQDdNfUagWt5hJQ==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      react: '>= 16.8'
+    dependencies:
+      attr-accept: 2.2.2
+      file-selector: 0.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
     dev: false
@@ -7205,7 +7246,6 @@ packages:
 
   /tslib/2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
-    dev: true
 
   /tsutils/3.21.0_typescript@4.7.4:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

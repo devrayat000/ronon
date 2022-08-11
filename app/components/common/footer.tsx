@@ -1,14 +1,5 @@
-import {
-  createStyles,
-  Text,
-  Container,
-  ActionIcon,
-  Group,
-  Image,
-  Anchor,
-} from "@mantine/core";
+import { createStyles, Text, Container, Image } from "@mantine/core";
 import { Link } from "@remix-run/react";
-import { IconBrandFacebook } from "@tabler/icons";
 
 import logo from "~/assets/logo.png";
 
@@ -93,19 +84,12 @@ const useStyles = createStyles((theme) => ({
   },
 
   afterFooter: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
     marginTop: theme.spacing.xl,
     paddingTop: theme.spacing.xl,
     paddingBottom: theme.spacing.xl,
     borderTop: `1px solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]
     }`,
-
-    [theme.fn.smallerThan("sm")]: {
-      flexDirection: "column",
-    },
   },
 
   social: {
@@ -118,7 +102,7 @@ const useStyles = createStyles((theme) => ({
 interface FooterLinksProps {
   data: {
     title: string;
-    links: { label: string; link: string }[];
+    links: { label: string; link: string; external?: boolean }[];
   }[];
 }
 
@@ -126,16 +110,29 @@ export default function MyFooter({ data }: FooterLinksProps) {
   const { classes } = useStyles();
 
   const groups = data.map((group) => {
-    const links = group.links.map((link, index) => (
-      <Text
-        key={index}
-        className={classes.link}
-        component={Link}
-        to={link.link}
-      >
-        {link.label}
-      </Text>
-    ));
+    const links = group.links.map((link, index) =>
+      link.external ? (
+        <Text
+          key={index}
+          className={classes.link}
+          component="a"
+          href={link.link}
+          target="_blank"
+          rel="noreferer"
+        >
+          {link.label}
+        </Text>
+      ) : (
+        <Text
+          key={index}
+          className={classes.link}
+          component={Link}
+          to={link.link}
+        >
+          {link.label}
+        </Text>
+      )
+    );
 
     return (
       <div className={classes.wrapper} key={group.title}>
@@ -162,29 +159,6 @@ export default function MyFooter({ data }: FooterLinksProps) {
         <Text color="dimmed" size="sm">
           © {new Date().getFullYear()} ronon.org. All rights reserved.
         </Text>
-
-        <Group spacing={0} className={classes.social} position="right" noWrap>
-          <ActionIcon
-            size="lg"
-            component="a"
-            href="https://www.facebook.com/rononedu"
-            rel="noopener"
-            target="_blank"
-          >
-            <IconBrandFacebook size={18} stroke={1.5} />
-          </ActionIcon>
-          <Anchor
-            component="a"
-            href="https://www.facebook.com/groups/ronon"
-            rel="noopener"
-            target="_blank"
-            size="lg"
-            variant="text"
-            color="dimmed"
-          >
-            Join Our Facebook Group
-          </Anchor>
-        </Group>
       </Container>
     </footer>
   );

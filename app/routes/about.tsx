@@ -91,6 +91,22 @@ const useStyles = createStyles((theme) => ({
   section: {
     marginTop: theme.spacing.xl * 4,
   },
+  article: {
+    "&:nth-of-type(odd)": {
+      marginRight: theme.spacing.xl * 12,
+    },
+    "&:nth-of-type(even)": {
+      marginLeft: theme.spacing.xl * 12,
+    },
+    [theme.fn.smallerThan("md")]: {
+      "&:nth-of-type(odd)": {
+        marginRight: 0,
+      },
+      "&:nth-of-type(even)": {
+        marginLeft: 0,
+      },
+    },
+  },
   sectionTitle: {
     color: theme.colors[theme.primaryColor][6],
     fontFamily: "inherit",
@@ -98,7 +114,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function AboutPage() {
-  const { classes, theme } = useStyles();
+  const { classes, cx } = useStyles();
 
   return (
     <main>
@@ -113,8 +129,7 @@ export default function AboutPage() {
       <Container className={classes.wrapper}>
         <Box
           component="article"
-          className={classes.section}
-          mr={theme.spacing.xl * 12}
+          className={cx(classes.section, classes.article)}
         >
           <Title order={2} className={classes.sectionTitle}>
             রণন কি?
@@ -134,8 +149,8 @@ export default function AboutPage() {
           backgroundColor: theme.colors[theme.primaryColor][0],
         })}
       >
-        <Container className={classes.wrapper} my="xl">
-          <Box component="section" pl={theme.spacing.xl * 12}>
+        <Container className={classes.wrapper}>
+          <Box component="section" className={classes.article}>
             <Title order={2} className={classes.sectionTitle} align="right">
               কাদের দ্বারা পরিচালিত এটি?
             </Title>
@@ -162,8 +177,7 @@ export default function AboutPage() {
       <Container className={classes.wrapper}>
         <Box
           component="section"
-          className={classes.section}
-          mr={theme.spacing.xl * 12}
+          className={cx(classes.section, classes.article)}
         >
           <Title order={2} className={classes.sectionTitle}>
             যেসকল বিষয নিয়ে আমরা কাজ করছি

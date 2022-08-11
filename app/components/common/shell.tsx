@@ -20,9 +20,16 @@ const footerData = [
   {
     title: "Community",
     links: [
-      { label: "Join Discord", link: "#" },
-      { label: "Follow on Twitter", link: "#" },
-      { label: "Email newsletter", link: "#" },
+      {
+        label: "Join our facebook group",
+        link: "https://www.facebook.com/groups/ronon",
+        external: true,
+      },
+      {
+        label: "Visit our facebook page",
+        link: "https://www.facebook.com/rononedu",
+        external: true,
+      },
     ],
   },
 ];

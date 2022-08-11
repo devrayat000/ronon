@@ -12,7 +12,7 @@ const AuthLinks = (props: Props) => {
       <Button
         size="sm"
         component="a"
-        href="https://forms.gle/Z2UCNro3MRc2KAcP9"
+        href="/signup"
         target="_blank"
         rel="noreferer"
       >

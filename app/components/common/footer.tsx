@@ -5,13 +5,10 @@ import {
   ActionIcon,
   Group,
   Image,
+  Anchor,
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
-import {
-  IconBrandTwitter,
-  IconBrandYoutube,
-  IconBrandFacebook,
-} from "@tabler/icons";
+import { IconBrandFacebook } from "@tabler/icons";
 
 import logo from "~/assets/logo.png";
 
@@ -176,12 +173,17 @@ export default function MyFooter({ data }: FooterLinksProps) {
           >
             <IconBrandFacebook size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon size="lg">
-            <IconBrandTwitter size={18} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <IconBrandYoutube size={18} stroke={1.5} />
-          </ActionIcon>
+          <Anchor
+            component="a"
+            href="https://www.facebook.com/groups/ronon"
+            rel="noopener"
+            target="_blank"
+            size="lg"
+            variant="text"
+            color="dimmed"
+          >
+            Join Our Facebook Group
+          </Anchor>
         </Group>
       </Container>
     </footer>

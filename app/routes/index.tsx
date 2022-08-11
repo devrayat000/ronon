@@ -22,7 +22,7 @@ export const links: LinksFunction = () => {
       rel: "preload",
       href: "/assets/ronon_illustration.svg",
       as: "image",
-      type: "image/png",
+      type: "image/svg+xml",
     },
   ];
 };

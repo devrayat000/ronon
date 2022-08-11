@@ -153,31 +153,37 @@ const useCatchStyles = createStyles((theme) => ({
   },
 }));
 
-export function CatchBoundary() {
+function ErrorView() {
   const navigate = useNavigate();
   const caught = useCatch();
   const { classes } = useCatchStyles();
 
   return (
+    <Container className={classes.root}>
+      <div className={classes.label}>{caught.status}</div>
+      <Title className={classes.title}>Nothing to see here.</Title>
+      <Text
+        color="dimmed"
+        size="lg"
+        align="center"
+        className={classes.description}
+      >
+        Unfortunately, this is only a 404 page. You may have mistyped the
+        address, or the page has been moved to another URL.
+      </Text>
+      <Group position="center">
+        <Button variant="subtle" size="md" onClick={() => navigate(-1)}>
+          Take me back
+        </Button>
+      </Group>
+    </Container>
+  );
+}
+
+export function CatchBoundary() {
+  return (
     <Document>
-      <Container className={classes.root}>
-        <div className={classes.label}>{caught.status}</div>
-        <Title className={classes.title}>Nothing to see here.</Title>
-        <Text
-          color="dimmed"
-          size="lg"
-          align="center"
-          className={classes.description}
-        >
-          Unfortunately, this is only a 404 page. You may have mistyped the
-          address, or the page has been moved to another URL.
-        </Text>
-        <Group position="center">
-          <Button variant="subtle" size="md" onClick={() => navigate(-1)}>
-            Take me back
-          </Button>
-        </Group>
-      </Container>
+      <ErrorView />
     </Document>
   );
 }

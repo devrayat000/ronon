@@ -77,7 +77,7 @@ const MyDrawer = (props: Props) => {
                 Account Settings
               </Button>
               <Form action="/logout" method="post">
-                <Button fullWidth size="sm" color="red">
+                <Button fullWidth size="sm" color="red" type="submit">
                   Logout
                 </Button>
               </Form>

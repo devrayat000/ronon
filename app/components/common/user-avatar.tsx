@@ -1,5 +1,5 @@
 import { ActionIcon, Avatar, Menu, useMantineTheme } from "@mantine/core";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useSubmit } from "@remix-run/react";
 import { Logout, Settings } from "tabler-icons-react";
 
 import type { User } from "~/interfaces/user";
@@ -9,13 +9,11 @@ type Props = {};
 const UserAvatar = (props: Props) => {
   const user = useLoaderData<User>();
   const theme = useMantineTheme();
+  const submit = useSubmit();
 
   return (
-    <Menu
-      size="auto"
-      placement="end"
-      transition="pop-top-right"
-      control={
+    <Menu position="bottom-end" transition="pop-top-right">
+      <Menu.Target>
         <ActionIcon radius="xl" size="xl">
           {user.profile_pic ? (
             <Avatar src={user.profile_pic} radius="xl" size="md" />
@@ -25,21 +23,20 @@ const UserAvatar = (props: Props) => {
             </Avatar>
           )}
         </ActionIcon>
-      }
-    >
-      <Menu.Item icon={<Settings size={14} />} component={Link} to="/account">
-        Account Settings
-      </Menu.Item>
-      <Form action="/logout" method="post">
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item icon={<Settings size={14} />} component={Link} to="/account">
+          Account Settings
+        </Menu.Item>
         <Menu.Item
           icon={<Logout size={14} color={theme.colors.red[6]} />}
           color="red"
           component="button"
-          type="submit"
+          onClick={() => submit({}, { action: "/logout", method: "post" })}
         >
           Logout
         </Menu.Item>
-      </Form>
+      </Menu.Dropdown>
     </Menu>
   );
 };

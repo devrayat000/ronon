@@ -41,7 +41,7 @@ export default function QuestionsPage() {
 
   return (
     <Container>
-      <Group position="right">
+      <Group position="right" mt="xl">
         <Button component={Link} to="create">
           Ask Question
         </Button>

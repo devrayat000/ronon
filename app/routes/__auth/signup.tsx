@@ -28,24 +28,32 @@ export async function action({ request }: ActionArgs) {
   try {
     const formData = await unstable_parseMultipartFormData(
       request,
-      uploadHandler // <-- we'll look at this deeper next
+      uploadHandler
     );
-    const { email, password, profile_pic, ...rest } = Object.fromEntries(
-      formData.entries()
-    );
-    if (!rest.invite_code) {
-      delete rest.invite_code;
+
+    if (!formData.has("invite_code")) {
+      formData.delete("invite_code");
     }
-    await api.post("/createUser/", {
-      email,
-      password,
-      profile_pic: (profile_pic as any as any[])[0],
-      ...rest,
+
+    const profile_pic = formData.get("profile_pic");
+    console.log(profile_pic);
+    console.log((profile_pic as any as any[]).length);
+    console.log(typeof profile_pic);
+
+    await fetch("https://rononbd.herokuapp.com/api/createUser/", {
+      method: "post",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
+    console.log("sending data to server");
+
     return redirect("https://forms.gle/Z2UCNro3MRc2KAcP9", {
       status: 303,
     });
   } catch (error) {
+    console.log(error);
     if (error instanceof AxiosError) {
       return { authError: error.response?.data.detail };
     }

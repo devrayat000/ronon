@@ -22,7 +22,7 @@ import { IconCheck } from "@tabler/icons";
 
 import { api } from "~/modules/axios.server";
 import { uploadHandler } from "~/services/upload-handler.server";
-import PhotoUpload from "~/components/signup/dropzone";
+import ImageUpload from "~/components/signup/dropzone";
 
 export async function action({ request }: ActionArgs) {
   try {
@@ -172,7 +172,7 @@ export default function SignupPage() {
           maxLength={32}
           mt="md"
         />
-        <PhotoUpload />
+        <ImageUpload />
         <Checkbox
           mt="md"
           label={

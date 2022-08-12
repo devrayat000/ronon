@@ -42,7 +42,7 @@ const MyHeader: React.FC<Props> = (props) => {
   const { classes, theme } = useStyles();
 
   return (
-    <Header height={70} className={classes.header}>
+    <Header height={70} className={classes.header} fixed={false}>
       <Group position="apart" style={{ height: "100%" }}>
         {/* App title */}
         <Group>

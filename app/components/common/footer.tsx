@@ -48,16 +48,21 @@ const useStyles = createStyles((theme) => ({
   },
 
   groups: {
-    display: "flex",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
 
     [theme.fn.smallerThan("sm")]: {
-      display: "none",
+      gridTemplateColumns: "repeat(1, 1fr)",
+      rowGap: theme.spacing.md,
+      marginTop: theme.spacing.lg,
+      alignSelf: "start",
+      paddingLeft: theme.spacing.lg,
+      paddingRight: theme.spacing.lg,
     },
   },
 
   wrapper: {
-    width: 160,
+    // width: 160,
   },
 
   link: {

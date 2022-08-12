@@ -64,7 +64,11 @@ const MyShell: React.FC<Props> = (props) => {
         startTransition(() => onScrollPositionChange(position));
       }}
     >
-      <AppShell header={<MyHeader />} footer={<MyFooter data={footerData} />}>
+      <AppShell
+        header={<MyHeader />}
+        footer={<MyFooter data={footerData} />}
+        styles={{ main: { paddingTop: 0 } }}
+      >
         <ScrollContext.Provider value={[scrollPosition, scrollTo]}>
           {props.children}
         </ScrollContext.Provider>

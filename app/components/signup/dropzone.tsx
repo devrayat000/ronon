@@ -1,75 +1,73 @@
-import { Group, Text, useMantineTheme, type MantineTheme } from "@mantine/core";
-import { IconUpload, IconPhoto, IconX, type TablerIcon } from "@tabler/icons";
-import {
-  Dropzone,
-  type DropzoneStatus,
-  IMAGE_MIME_TYPE,
-} from "@mantine/dropzone";
+import { useState } from "react";
+import { Text, Image, Group, useMantineTheme, Input } from "@mantine/core";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { IconPhoto, IconUpload, IconX } from "@tabler/icons";
 
-function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
-  return status.accepted
-    ? theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6]
-    : status.rejected
-    ? theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]
-    : theme.colorScheme === "dark"
-    ? theme.colors.dark[0]
-    : theme.colors.gray[7];
-}
-
-function ImageUploadIcon({
-  status,
-  ...props
-}: React.ComponentProps<TablerIcon> & { status: DropzoneStatus }) {
-  if (status.accepted) {
-    return <IconUpload {...props} />;
-  }
-
-  if (status.rejected) {
-    return <IconX {...props} />;
-  }
-
-  return <IconPhoto {...props} />;
-}
-
-export const dropzoneChildren = (
-  status: DropzoneStatus,
-  theme: MantineTheme
-) => (
-  <Group
-    position="center"
-    spacing="xl"
-    style={{ minHeight: 220, pointerEvents: "none" }}
-  >
-    <ImageUploadIcon
-      status={status}
-      style={{ color: getIconColor(status, theme) }}
-      size={80}
-    />
-
-    <div>
-      <Text size="xl" inline>
-        Drag images here or click to select files
-      </Text>
-      <Text size="sm" color="dimmed" inline mt={7}>
-        Attach as many files as you like, each file should not exceed 5mb
-      </Text>
-    </div>
-  </Group>
-);
-
-export default function PhotoUpload() {
+export default function ImageUpload() {
+  const [files, setFiles] = useState<File[]>([]);
   const theme = useMantineTheme();
+
+  const preview = (() => {
+    if (files.length === 0) {
+      return;
+    }
+    const imageUrl = URL.createObjectURL(files[0]);
+    return (
+      <Image
+        src={imageUrl}
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+      />
+    );
+  })();
+
   return (
-    <Dropzone
-      name="profile_pic"
-      onDrop={(files) => console.log("accepted files", files)}
-      onReject={(files) => console.log("rejected files", files)}
-      maxSize={3 * 1024 ** 2}
-      mt="md"
-      multiple={false}
-      accept={IMAGE_MIME_TYPE}
-    >
-      {(status) => dropzoneChildren(status, theme)}
-    </Dropzone>
+    <Input.Wrapper label="Profile Picture" mt="md" required>
+      <Dropzone
+        onReject={(files) => console.log("rejected files", files)}
+        maxSize={3 * 1024 ** 2}
+        accept={IMAGE_MIME_TYPE}
+        onDrop={setFiles}
+        name="profile_pic"
+      >
+        <Group
+          position="center"
+          spacing="xl"
+          style={{ minHeight: 220, pointerEvents: "none" }}
+        >
+          <Dropzone.Accept>
+            {preview || (
+              <IconUpload
+                size={50}
+                stroke={1.5}
+                color={
+                  theme.colors[theme.primaryColor][
+                    theme.colorScheme === "dark" ? 4 : 6
+                  ]
+                }
+              />
+            )}
+          </Dropzone.Accept>
+          <Dropzone.Reject>
+            <IconX
+              size={50}
+              stroke={1.5}
+              color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
+            />
+          </Dropzone.Reject>
+          <Dropzone.Idle>
+            {preview || <IconPhoto size={50} stroke={1.5} />}
+          </Dropzone.Idle>
+
+          <div>
+            <Text size="xl" inline>
+              Drag images here or click to select files
+            </Text>
+            <Text size="sm" color="dimmed" inline mt={7}>
+              Attach as many files as you like, each file should not exceed 5mb
+            </Text>
+          </div>
+        </Group>
+      </Dropzone>
+    </Input.Wrapper>
   );
 }

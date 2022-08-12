@@ -9,10 +9,13 @@
     "start": "cross-env NODE_ENV=production NETLIFY=prod netlify dev"
   },
   "dependencies": {
-    "@mantine/core": "4.2.x",
-    "@mantine/dropzone": "4.2.x",
-    "@mantine/hooks": "4.2.x",
+    "@emotion/react": "^11.10.0",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "5.1.4",
+    "@mantine/dropzone": "5.1.4",
+    "@mantine/hooks": "5.1.4",
     "@mantine/notifications": "4.2.12",
+    "@mantine/remix": "^5.1.4",
     "@mantine/ssr": "4.2.x",
     "@remix-run/netlify": "^1.6.7",
     "@remix-run/node": "^1.6.7",

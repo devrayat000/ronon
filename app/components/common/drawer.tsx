@@ -8,7 +8,7 @@ import {
   Space,
   Stack,
 } from "@mantine/core";
-import { useBooleanToggle } from "@mantine/hooks";
+import { useToggle } from "@mantine/hooks";
 import { Form, NavLink, useLoaderData, useLocation } from "@remix-run/react";
 
 import type { User } from "~/interfaces/user";
@@ -28,7 +28,7 @@ type Props = {};
 
 const MyDrawer = (props: Props) => {
   const user = useLoaderData<User | null>();
-  const [open, toggle] = useBooleanToggle(false);
+  const [open, toggle] = useToggle([false, true]);
   const { classes, theme } = useStyles();
   const location = useLocation();
 

@@ -14,7 +14,8 @@ type Props = {};
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    margin: -theme.spacing.md,
+    marginLeft: -theme.spacing.md,
+    marginRight: -theme.spacing.md,
     padding: `${theme.spacing.xl * 3}px ${theme.spacing.md}px`,
     backgroundColor:
       theme.colorScheme === "light"

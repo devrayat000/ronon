@@ -26,6 +26,7 @@ import {
   createStyles,
 } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
+import { StylesPlaceholder } from "@mantine/remix";
 
 import MyShell from "./components/common/shell";
 import logo from "~/assets/logo.png";
@@ -87,22 +88,23 @@ export const links: LinksFunction = () => {
 
 function Document(props: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <MantineProvider
-          theme={{
-            colorScheme: "light",
-            fontFamily: "Inter, " + DEFAULT_THEME.fontFamily,
-            primaryColor: "violet",
-          }}
-          withGlobalStyles
-          withNormalizeCSS
-          withCSSVariables
-        >
+    <MantineProvider
+      theme={{
+        colorScheme: "light",
+        fontFamily: "Inter, " + DEFAULT_THEME.fontFamily,
+        primaryColor: "violet",
+      }}
+      withGlobalStyles
+      withNormalizeCSS
+      withCSSVariables
+    >
+      <html lang="en">
+        <head>
+          <Meta />
+          <Links />
+          <StylesPlaceholder />
+        </head>
+        <body>
           <NotificationsProvider>
             <Global
               styles={{
@@ -116,12 +118,12 @@ function Document(props: { children: React.ReactNode }) {
             />
             <MyShell>{props.children}</MyShell>
           </NotificationsProvider>
-        </MantineProvider>
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </body>
+      </html>
+    </MantineProvider>
   );
 }
 

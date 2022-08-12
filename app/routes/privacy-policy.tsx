@@ -1,9 +1,15 @@
 import { Box, Container, Text, Title } from "@mantine/core";
 
 export const headers = () => {
+  const a = new Date(),
+    b = new Date();
+  b.setMonth(a.getMonth() + 1);
+
+  const c = b.getMilliseconds() - a.getMilliseconds(),
+    age = c / 1000;
+
   return {
-    "Cache-Control":
-      "public, max-age=2592000, s-maxage=31536000, state-while-revalidate=31536000",
+    "Cache-Control": `public, max-age=60, s-maxage=${age}, state-while-revalidate=${age}`,
   };
 };
 

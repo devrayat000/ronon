@@ -9,7 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconCircleCheck, IconCircleDashed } from "@tabler/icons";
-import type { HeadersFunction, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 
 import OwnerInfoAction, {
   type OwnerInfoActionProps,
@@ -21,13 +21,6 @@ import omor from "../assets/owners/omor.jpeg";
 import asif from "../assets/owners/asif.jpg";
 import maruf from "../assets/owners/maruf.jpg";
 import sakibul from "../assets/owners/sakibul.jpg";
-
-export const headers: HeadersFunction = () => {
-  return {
-    "Cache-Control":
-      "max-age=60, s-maxage=604800, stale-while-revalidate=604800",
-  };
-};
 
 export const meta: MetaFunction = () => {
   return {

@@ -1,4 +1,9 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type {
+  HeadersFunction,
+  LinksFunction,
+  LoaderArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -27,6 +32,22 @@ import logo from "~/assets/logo.png";
 import { decodeToken } from "./modules/jwt.server";
 import { getUser } from "./services/user.server";
 import { rootHOF } from "./services/refresh.server";
+
+export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
+  const a = new Date(),
+    b = new Date();
+  b.setMonth(a.getMonth() + 1);
+
+  const c = b.getMilliseconds() - a.getMilliseconds(),
+    age = c / 1000;
+
+  return {
+    "Cache-Control":
+      loaderHeaders.get("Cache-Control") ??
+      parentHeaders.get("Cache-Control") ??
+      `public, max-age=0, s-maxage=${age}, state-while-revalidate=${age}`,
+  };
+};
 
 export async function loader({ request }: LoaderArgs) {
   const user = await rootHOF(request, async (accessToken) => {

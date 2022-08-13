@@ -1,5 +1,6 @@
 import { AppShell, ScrollArea } from "@mantine/core";
-import { useTransition, createContext, useRef, useState } from "react";
+import { useDebouncedState } from "@mantine/hooks";
+import { createContext, useRef } from "react";
 
 import MyFooter from "./footer";
 import MyHeader from "./header";
@@ -45,11 +46,15 @@ export const ScrollContext = createContext<
 
 const MyShell: React.FC<Props> = (props) => {
   const scrollableRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, onScrollPositionChange] = useState<ScrollPosition>({
-    x: 0,
-    y: 0,
-  });
-  const [, startTransition] = useTransition();
+  const [scrollPosition, onScrollPositionChange] =
+    useDebouncedState<ScrollPosition>(
+      {
+        x: 0,
+        y: 0,
+      },
+      200
+    );
+  // const [, startTransition] = useTransition();
 
   function scrollTo({ x, y }: Partial<ScrollPosition>) {
     console.log("scroll to");
@@ -60,9 +65,7 @@ const MyShell: React.FC<Props> = (props) => {
     <ScrollArea
       sx={{ height: "100vh", scrollBehavior: "smooth" }}
       viewportRef={scrollableRef}
-      onScrollPositionChange={(position) => {
-        startTransition(() => onScrollPositionChange(position));
-      }}
+      onScrollPositionChange={onScrollPositionChange}
     >
       <AppShell
         header={<MyHeader />}

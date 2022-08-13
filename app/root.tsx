@@ -105,17 +105,17 @@ function Document(props: { children: React.ReactNode }) {
           <StylesPlaceholder />
         </head>
         <body>
+          <Global
+            styles={{
+              "html, body": {
+                overflowY: "hidden",
+              },
+              body: {
+                margin: 0,
+              },
+            }}
+          />
           <NotificationsProvider>
-            <Global
-              styles={{
-                "html, body": {
-                  overflowY: "hidden",
-                },
-                body: {
-                  margin: 0,
-                },
-              }}
-            />
             <MyShell>{props.children}</MyShell>
           </NotificationsProvider>
           <ScrollRestoration />

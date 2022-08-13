@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 import { api } from "~/modules/axios.server";
 import { getAnswers } from "./answer.server";
 import type { Question } from "~/interfaces/question";
+import { getUser } from "./user.server";
 
 export async function getQuestionById(id: number, accessToken: string) {
   const resp = await api.get<Question[]>("/questions/", {
@@ -13,8 +14,13 @@ export async function getQuestionById(id: number, accessToken: string) {
     throw json("Not found", { status: 404 });
   }
 
+  const [answers, user] = await Promise.all([
+    getAnswers(question.ID, accessToken),
+    getUser(question.User, accessToken),
+  ]);
   return Object.assign(question, {
-    answers: await getAnswers(question.ID, accessToken),
+    answers,
+    user,
   });
 }
 
@@ -22,9 +28,16 @@ export async function getQuestions(accessToken: string) {
   const resp = await api.get<Question[]>("/questions/", {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
+
   const questions = resp.data.map(async (question) => {
+    const [answers, user] = await Promise.all([
+      getAnswers(question.ID, accessToken),
+      getUser(question.User, accessToken),
+    ]);
+
     return Object.assign(question, {
-      answers: await getAnswers(question.ID, accessToken),
+      answers,
+      user,
     });
   });
 

@@ -4,4 +4,5 @@ export interface Answer {
   "User Name": string;
   Answer: string;
   "PQue ID": number;
+  img?: string;
 }

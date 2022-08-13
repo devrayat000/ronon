@@ -20,7 +20,6 @@ import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { IconCheck } from "@tabler/icons";
 
-import { api } from "~/modules/axios.server";
 import { uploadHandler } from "~/services/upload-handler.server";
 import ImageUpload from "~/components/signup/dropzone";
 
@@ -31,23 +30,14 @@ export async function action({ request }: ActionArgs) {
       uploadHandler
     );
 
-    if (!formData.has("invite_code")) {
+    if (!formData.get("invite_code")) {
       formData.delete("invite_code");
     }
 
-    const profile_pic = formData.get("profile_pic");
-    console.log(profile_pic);
-    console.log((profile_pic as any as any[]).length);
-    console.log(typeof profile_pic);
-
     await fetch("https://rononbd.herokuapp.com/api/createUser/", {
-      method: "post",
+      method: "POST",
       body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    console.log("sending data to server");
+    }).then((r) => r.json());
 
     return redirect("https://forms.gle/Z2UCNro3MRc2KAcP9", {
       status: 303,
@@ -153,6 +143,7 @@ export default function SignupPage() {
           name="college"
           variant="filled"
           placeholder="Dhaka College"
+          defaultValue=""
           mt="md"
         />
         <TextInput
@@ -161,6 +152,7 @@ export default function SignupPage() {
           name="hsc_year"
           variant="filled"
           placeholder="2012"
+          defaultValue=""
           mt="md"
         />
         <TextInput

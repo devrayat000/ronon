@@ -31,12 +31,12 @@ export default function ProfilePage() {
   const { user } = useOutletContext<{ user: User }>();
 
   return (
-    <Container>
+    <Container mt="xl">
       <Title order={1} align="center">
         Profile
       </Title>
-      <SimpleGrid cols={2} breakpoints={[{ cols: 1, maxWidth: "md" }]}>
-        <Stack mt="xl">
+      <SimpleGrid cols={2} breakpoints={[{ cols: 1, maxWidth: "md" }]} mt="xl">
+        <Stack>
           <Text>
             <b>Name:</b> {user.Name}
           </Text>
@@ -66,7 +66,7 @@ export default function ProfilePage() {
             src={user.profile_pic}
             alt={user.Name}
             radius="md"
-            width="50%"
+            // width="50%"
             sx={(theme) => ({
               [theme.fn.smallerThan("md")]: {
                 gridRowStart: 1,

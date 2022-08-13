@@ -17,6 +17,7 @@ import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
 import { getQuestions } from "~/services/question.server";
 import { contentHOF } from "~/services/refresh.server";
+import type { User } from "~/interfaces/user";
 
 export const meta: MetaFunction = () => {
   return {
@@ -33,6 +34,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 type LoaderData = Question & {
   answers: Answer[];
+  user: User;
 };
 
 export default function QuestionsPage() {
@@ -47,13 +49,14 @@ export default function QuestionsPage() {
         </Button>
       </Group>
       <Stack mt="xl">
-        {questions.map(({ ID, Que, answers, ...rest }) => (
+        {questions.map(({ ID, Que, answers, user, ...rest }) => (
           <CommentHtml
             key={ID}
             id={ID}
             author={rest["User's Name"]}
             title={Que}
             answerCount={answers.length}
+            user={user}
           />
         ))}
       </Stack>

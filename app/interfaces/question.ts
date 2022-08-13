@@ -3,4 +3,5 @@ export interface Question {
   User: number;
   "User's Name": string;
   Que: string;
+  img?: string;
 }

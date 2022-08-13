@@ -7,6 +7,9 @@ import {
   Stack,
   Text,
   Title,
+  Image,
+  SimpleGrid,
+  Anchor,
 } from "@mantine/core";
 import { json, type MetaFunction, type LoaderFunction } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
@@ -16,6 +19,7 @@ import { getQuestionById } from "~/services/question.server";
 import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
 import { contentHOF } from "~/services/refresh.server";
+import type { User } from "~/interfaces/user";
 
 export const meta: MetaFunction = ({ data }) => {
   return {
@@ -35,18 +39,28 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 type LoaderData = Question & {
   answers: Answer[];
+  user: User;
 };
 
 export default function QuestionAnswers() {
   const question = useLoaderData<LoaderData>();
 
   return (
-    <Container>
+    <Container mt="xl">
       {/* Author info */}
       <Group>
-        <Avatar alt={question["User's Name"]} radius="xl">
-          {question["User's Name"].at(0)?.toUpperCase()}
-        </Avatar>
+        {question.user.profile_pic ? (
+          <Avatar
+            src={question.user.profile_pic}
+            alt={question["User's Name"]}
+            size="lg"
+            radius="xl"
+          />
+        ) : (
+          <Avatar alt={question["User's Name"]} size="lg" radius="xl">
+            {question["User's Name"].at(0)?.toUpperCase()}
+          </Avatar>
+        )}
         <Box>
           <Text size="md">{question["User's Name"]}</Text>
         </Box>
@@ -58,6 +72,17 @@ export default function QuestionAnswers() {
         <Text component="p" my="xs" size="lg" weight={600}>
           {question.Que}
         </Text>
+        {question.img && (
+          <SimpleGrid
+            cols={4}
+            breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+            mt="xl"
+          >
+            <Anchor href={question.img} target="_blank" rel="norefer">
+              <Image src={question.img} alt={question.Que} />
+            </Anchor>
+          </SimpleGrid>
+        )}
       </Box>
 
       <Stack my="xl">
@@ -75,6 +100,7 @@ export default function QuestionAnswers() {
               key={ans["Answer ID"]}
               body={ans.Answer}
               author={ans["User Name"]}
+              img={ans.img}
             />
           ))}
         </Stack>

@@ -7,14 +7,28 @@ import {
   SimpleGrid,
   Anchor,
 } from "@mantine/core";
+import Voting from "./vote";
 
 interface CommentHtmlProps {
+  id: string | number;
+  qid: string | number;
   body: string;
   author: string;
   img?: string;
+  upvotes?: number;
+  downvotes?: number;
+  upvoteStatus: boolean;
+  downvoteStatus: boolean;
 }
 
-export default function AnswerCard({ body, author, img }: CommentHtmlProps) {
+export default function AnswerCard({
+  id,
+  qid,
+  body,
+  author,
+  img,
+  ...rest
+}: CommentHtmlProps) {
   return (
     <Paper withBorder radius="md" px="xl" py="lg">
       <Group>
@@ -36,6 +50,8 @@ export default function AnswerCard({ body, author, img }: CommentHtmlProps) {
           </Anchor>
         </SimpleGrid>
       )}
+
+      <Voting url={`/questions/${qid}/answers/${id}/vote`} {...rest} />
     </Paper>
   );
 }

@@ -6,9 +6,13 @@ import {
   Anchor,
   Box,
   Button,
+  Breadcrumbs,
+  Text,
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
+
 import type { User } from "~/interfaces/user";
+import Voting from "./questions/vote";
 
 const useStyles = createStyles((theme) => ({
   comment: {
@@ -30,17 +34,22 @@ const useStyles = createStyles((theme) => ({
 interface CommentHtmlProps {
   id: number | string;
   title: string;
-  answerCount: number;
-  author: string;
   user: User;
+  subject: string;
+  chapter: string;
+  upvotes?: number;
+  downvotes?: number;
+  upvoteStatus: boolean;
+  downvoteStatus: boolean;
 }
 
 export function CommentHtml({
   id,
   title,
-  author,
-  answerCount,
   user,
+  subject,
+  chapter,
+  ...rest
 }: CommentHtmlProps) {
   const { classes, theme } = useStyles();
 
@@ -48,28 +57,33 @@ export function CommentHtml({
     <Paper withBorder radius="md" className={classes.comment}>
       <Group>
         {user.profile_pic ? (
-          <Avatar src={user.profile_pic} alt={author} radius="xl" />
+          <Avatar src={user.profile_pic} alt={user.Name} radius="xl" />
         ) : (
-          <Avatar alt={author} radius="xl">
-            {author.at(0)?.toUpperCase()}
+          <Avatar alt={user.Name} radius="xl">
+            {user.Name.at(0)?.toUpperCase()}
           </Avatar>
         )}
-        <Anchor size="sm" variant="text" component={Link} to="/u/someone">
-          {author}
-        </Anchor>
+        <Text size="sm">{user.Name}</Text>
       </Group>
       <Box pl={theme.spacing.xl * 2}>
         <Anchor size="lg" variant="text" component={Link} to={id.toString()}>
           {title}
         </Anchor>
 
-        <Group position="apart" mt="md">
+        <Breadcrumbs mt="md" separator="→">
+          <Text>{subject}</Text>
+          <Text>{chapter}</Text>
+        </Breadcrumbs>
+
+        <Voting url={`/questions/${id}/vote`} {...rest} />
+
+        <Group position="apart" mt="lg">
           <Button
             variant="outline"
             component={Link}
             to={id.toString() + "/#comments"}
           >
-            {answerCount} Answers
+            See Answers
           </Button>
           <Button component={Link} to={id.toString() + "/respond"}>
             Answer

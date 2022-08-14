@@ -30,7 +30,16 @@ export async function getQuestions(accessToken: string) {
     // timeout: 25 * 1000,
   });
 
-  const questions = resp.data;
+  const questions = resp.data
+    .filter((q) => q.verified)
+    .map(async (question) => {
+      const user = await getUser(question.User, accessToken);
+      console.log(user);
 
-  return questions;
+      return Object.assign(question, {
+        user,
+      });
+    });
+
+  return Promise.all(questions);
 }

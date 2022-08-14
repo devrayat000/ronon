@@ -44,7 +44,7 @@ export async function action({ request, params }: ActionArgs) {
     formData.append("User", User);
     formData.append("PQue ID", PQue);
 
-    return fetch("https://rononbd.up.railway.app/api/createAnswer/", {
+    return fetch("https://rononbd.herokuapp.com/api/createAnswer/", {
       method: "POST",
       body: formData,
       headers: { Authorization: `Bearer ${accessToken}` },

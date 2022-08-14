@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import {
   ActionIcon,
   Button,
@@ -5,6 +6,7 @@ import {
   Group,
   Image,
   Paper,
+  Select,
   SimpleGrid,
   Textarea,
 } from "@mantine/core";
@@ -15,11 +17,18 @@ import {
   type MetaFunction,
   type ActionArgs,
   unstable_parseMultipartFormData,
+  type LoaderArgs,
 } from "@remix-run/node";
-import { Form, useActionData, useTransition } from "@remix-run/react";
+import {
+  useActionData,
+  useFetcher,
+  useLoaderData,
+  useTransition,
+} from "@remix-run/react";
 import { IconCheck, IconPhoto } from "@tabler/icons";
-import { useEffect, useRef, useState } from "react";
 
+import type { Subject } from "~/interfaces/question";
+import { api } from "~/modules/axios.server";
 import { requireId } from "~/modules/jwt.server";
 import { contentHOF } from "~/services/refresh.server";
 import { uploadHandler } from "~/services/upload-handler.server";
@@ -29,6 +38,24 @@ export const meta: MetaFunction = () => {
     title: "Ask Question - Ronon",
   };
 };
+
+export async function loader({ request }: LoaderArgs) {
+  return contentHOF(request, async (accessToken) => {
+    const [subjectRes] = await Promise.all([
+      api.get<Subject[]>("/options/", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    ]);
+    return {
+      subjects: subjectRes.data.map((subject) => ({
+        value: subject.subId,
+        label: subject.subject,
+      })),
+    };
+  });
+}
 
 export async function action({ request }: ActionArgs) {
   const formData = await unstable_parseMultipartFormData(
@@ -40,7 +67,7 @@ export async function action({ request }: ActionArgs) {
     const User = requireId(accessToken);
     formData.append("User", User);
 
-    return fetch("https://rononbd.up.railway.app/api/createQuestion/", {
+    return fetch("https://rononbd.herokuapp.com/api/createQuestion/", {
       method: "POST",
       body: formData,
       headers: {
@@ -60,8 +87,14 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function CreateQuestionPage() {
+  const { subjects } = useLoaderData<{
+    subjects: { label: string; value: string }[];
+  }>();
   const transition = useTransition();
   const actionData = useActionData();
+  const fetcher = useFetcher<{
+    chapters: { label: string; value: string }[];
+  }>();
 
   const [image, setImage] = useState<null | undefined | File>(
     () => actionData?.params?.img
@@ -69,6 +102,25 @@ export default function CreateQuestionPage() {
 
   const formRef = useRef<HTMLFormElement>(null);
   const imgRef = useRef<HTMLInputElement>(null);
+
+  const preview = (() => {
+    if (!image) return;
+    const imageUrl = URL.createObjectURL(image);
+    return (
+      <Image
+        src={imageUrl}
+        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
+      />
+    );
+  })();
+
+  function handleSubjectSelect(value: string | null) {
+    if (!value) return;
+    fetcher.submit(
+      {},
+      { method: "post", action: "/questions/subject/" + value }
+    );
+  }
 
   useEffect(() => {
     if (
@@ -93,22 +145,11 @@ export default function CreateQuestionPage() {
     };
   }, [transition.state, transition.type, actionData]);
 
-  const preview = (() => {
-    if (!image) return;
-    const imageUrl = URL.createObjectURL(image);
-    return (
-      <Image
-        src={imageUrl}
-        imageProps={{ onLoad: () => URL.revokeObjectURL(imageUrl) }}
-      />
-    );
-  })();
-
   return (
     <Container>
       <Paper
         ref={formRef}
-        component={Form}
+        component={fetcher.Form}
         replace
         encType="multipart/form-data"
         method="post"
@@ -116,8 +157,27 @@ export default function CreateQuestionPage() {
         mt="xl"
         p="lg"
       >
+        <SimpleGrid cols={1} breakpoints={[{ minWidth: "md", cols: 2 }]}>
+          <Select
+            label="Pick a Subject"
+            placeholder="Physics"
+            data={subjects}
+            variant="filled"
+            onChange={handleSubjectSelect}
+          />
+          <Select
+            label="Pick a Subject"
+            placeholder="Chapter 1"
+            data={fetcher.data?.chapters ?? []}
+            variant="filled"
+            name="tagId"
+            disabled={!fetcher.data}
+          />
+        </SimpleGrid>
         <Textarea
-          placeholder="Write question..."
+          mt="md"
+          label="Write question"
+          placeholder="What are the three laws of force?"
           name="Que"
           variant="filled"
           defaultValue={actionData?.params?.Que}

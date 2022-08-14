@@ -102,7 +102,7 @@ export async function rootHOF<T>(
         const { headers, accessToken } = await refreshToken(request);
         console.log("refreshed");
 
-        const resp = await callback(accessToken);
+        const resp = await callback(accessToken).catch(console.log);
         console.log("ran callback");
 
         return json(resp, { headers, status: 200 });

@@ -14,7 +14,7 @@
     "@mantine/core": "5.1.4",
     "@mantine/dropzone": "5.1.4",
     "@mantine/hooks": "5.1.4",
-    "@mantine/notifications": "4.2.12",
+    "@mantine/notifications": "5.1.5",
     "@mantine/remix": "^5.1.4",
     "@mantine/ssr": "4.2.x",
     "@remix-run/netlify": "^1.6.7",

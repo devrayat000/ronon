@@ -98,9 +98,12 @@ export default function QuestionAnswers() {
           {question.answers.map((ans) => (
             <AnswerCard
               key={ans["Answer ID"]}
+              id={ans["Answer ID"]}
+              qid={ans["PQue ID"]}
               body={ans.Answer}
               author={ans["User Name"]}
               img={ans.img}
+              {...ans}
             />
           ))}
         </Stack>

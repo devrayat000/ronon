@@ -21,6 +21,7 @@ interface CommentHtmlProps {
   upvoteStatus: boolean;
   downvoteStatus: boolean;
   created_at: string;
+  verified: boolean;
 }
 
 export default function AnswerCard({
@@ -54,6 +55,12 @@ export default function AnswerCard({
             <Image src={img} alt={body} />
           </Anchor>
         </SimpleGrid>
+      )}
+
+      {rest.verified && (
+        <Text size="sm" mt="md" color="green">
+          Verified by admin *
+        </Text>
       )}
 
       <Voting url={`/questions/${qid}/answers/${id}/vote`} {...rest} />

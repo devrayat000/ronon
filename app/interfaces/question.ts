@@ -7,7 +7,7 @@ export interface Question {
   subject: string;
   chapter: string;
   created_at: string;
-  verified: string;
+  verified: true;
   upvoteStatus: boolean;
   downvoteStatus: boolean;
   upvotes?: number;

@@ -30,16 +30,31 @@ export async function getQuestions(accessToken: string) {
     // timeout: 25 * 1000,
   });
 
-  const questions = resp.data
-    .filter((q) => q.verified)
-    .map(async (question) => {
-      const user = await getUser(question.User, accessToken);
-      console.log(user);
+  const questions = resp.data.map(async (question) => {
+    const user = await getUser(question.User, accessToken);
+    console.log(user);
 
-      return Object.assign(question, {
-        user,
-      });
+    return Object.assign(question, {
+      user,
     });
+  });
+
+  return Promise.all(questions);
+}
+
+export async function getFilteredQuestion(tagId: string, accessToken: string) {
+  const resp = await api.get<Question[]>(`/questions/search/${tagId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  const questions = resp.data.map(async (question) => {
+    const user = await getUser(question.User, accessToken);
+    console.log(user);
+
+    return Object.assign(question, {
+      user,
+    });
+  });
 
   return Promise.all(questions);
 }

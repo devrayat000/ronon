@@ -21,6 +21,7 @@ import type { Answer } from "~/interfaces/answer";
 import { contentHOF } from "~/services/refresh.server";
 import type { User } from "~/interfaces/user";
 import dayjs from "dayjs";
+import Voting from "~/components/questions/vote";
 
 export const meta: MetaFunction = ({ data }) => {
   return {
@@ -89,6 +90,8 @@ export default function QuestionAnswers() {
             </Anchor>
           </SimpleGrid>
         )}
+
+        <Voting url={`/questions/${question.ID}/vote`} {...question} />
       </Box>
 
       <Stack my="xl">

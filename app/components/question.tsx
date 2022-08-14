@@ -9,7 +9,7 @@ import {
   Breadcrumbs,
   Text,
 } from "@mantine/core";
-import { Link } from "@remix-run/react";
+import { Link, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
 
 import type { User } from "~/interfaces/user";
@@ -42,6 +42,7 @@ interface CommentHtmlProps {
   downvotes?: number;
   upvoteStatus: boolean;
   downvoteStatus: boolean;
+  verified?: boolean;
   created_at: string;
 }
 
@@ -53,6 +54,7 @@ export function CommentHtml({
   chapter,
   ...rest
 }: CommentHtmlProps) {
+  const [params] = useSearchParams();
   const { classes, theme } = useStyles();
 
   return (
@@ -82,7 +84,15 @@ export function CommentHtml({
           <Text>{chapter}</Text>
         </Breadcrumbs>
 
-        <Voting url={`/questions/${id}/vote`} {...rest} />
+        {rest.verified && (
+          <Text size="sm" mt="md" color="green">
+            Verified by admin *
+          </Text>
+        )}
+
+        {!params.has("tagId") && (
+          <Voting url={`/questions/${id}/vote`} {...rest} />
+        )}
 
         <Group position="apart" mt="lg">
           <Button

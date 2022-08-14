@@ -9,13 +9,19 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import { useLoaderData, useOutletContext } from "@remix-run/react";
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 
 import { getUserQuestions } from "~/services/user.server";
 import { requireId } from "~/modules/jwt.server";
 import type { User } from "~/interfaces/user";
 import type { Question } from "~/interfaces/question";
 import { contentHOF } from "~/services/refresh.server";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Account Settings - Ronon",
+  };
+};
 
 export async function loader({ request }: LoaderArgs) {
   return contentHOF(request, (accessToken) => {

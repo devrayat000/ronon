@@ -13,6 +13,7 @@ import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import {
   redirect,
   unstable_parseMultipartFormData,
+  type MetaFunction,
   type ActionArgs,
 } from "@remix-run/node";
 import { showNotification, hideNotification } from "@mantine/notifications";
@@ -22,6 +23,12 @@ import { IconCheck } from "@tabler/icons";
 
 import { uploadHandler } from "~/services/upload-handler.server";
 import ImageUpload from "~/components/signup/dropzone";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Create an Account - Ronon",
+  };
+};
 
 export async function action({ request }: ActionArgs) {
   try {
@@ -34,7 +41,7 @@ export async function action({ request }: ActionArgs) {
       formData.delete("invite_code");
     }
 
-    await fetch("https://rononbd.herokuapp.com/api/createUser/", {
+    await fetch("https://rononbd.up.railway.app/api/createUser/", {
       method: "POST",
       body: formData,
     }).then((r) => r.json());

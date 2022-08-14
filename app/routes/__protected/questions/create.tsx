@@ -40,7 +40,7 @@ export async function action({ request }: ActionArgs) {
     const User = requireId(accessToken);
     formData.append("User", User);
 
-    return fetch("https://rononbd.herokuapp.com/api/createQuestion/", {
+    return fetch("https://rononbd.up.railway.app/api/createQuestion/", {
       method: "POST",
       body: formData,
       headers: {

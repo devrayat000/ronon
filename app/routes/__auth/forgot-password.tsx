@@ -11,8 +11,15 @@ import {
   Center,
   Box,
 } from "@mantine/core";
+import { type MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 import { ArrowLeft } from "tabler-icons-react";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Forgot Password? - Ronon",
+  };
+};
 
 const useStyles = createStyles((theme) => ({
   title: {

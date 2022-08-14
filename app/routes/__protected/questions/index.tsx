@@ -14,10 +14,8 @@ import { ArrowBarUp } from "tabler-icons-react";
 import { ScrollContext } from "~/components/common/shell";
 import { CommentHtml } from "~/components/question";
 import type { Question } from "~/interfaces/question";
-import type { Answer } from "~/interfaces/answer";
 import { getQuestions } from "~/services/question.server";
 import { contentHOF } from "~/services/refresh.server";
-import type { User } from "~/interfaces/user";
 
 export const meta: MetaFunction = () => {
   return {
@@ -32,10 +30,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   );
 };
 
-type LoaderData = Question & {
-  answers: Answer[];
-  user: User;
-};
+type LoaderData = Question;
 
 export default function QuestionsPage() {
   const questions = useLoaderData<LoaderData[]>();
@@ -53,9 +48,9 @@ export default function QuestionsPage() {
           <CommentHtml
             key={ID}
             id={ID}
-            author={rest["User's Name"]}
+            author={user.Name}
             title={Que}
-            answerCount={answers.length}
+            answerCount={answers}
             user={user}
           />
         ))}

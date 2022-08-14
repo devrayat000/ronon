@@ -1,6 +1,13 @@
 import { Container, SimpleGrid, Title } from "@mantine/core";
+import { type MetaFunction } from "@remix-run/node";
 
 import PriceCard from "~/components/pricing/price-card";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Pricing - Ronon",
+  };
+};
 
 export default function PricingPage() {
   return (

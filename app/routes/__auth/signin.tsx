@@ -10,12 +10,18 @@ import {
   Group,
 } from "@mantine/core";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { type ActionArgs, redirect } from "@remix-run/node";
+import { type ActionArgs, redirect, type MetaFunction } from "@remix-run/node";
 
 import type { Token } from "~/interfaces/token";
 import { api } from "~/modules/axios.server";
 import { getCookieHeader } from "~/services/cookie-header.server";
 import { AxiosError } from "axios";
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Log In - Ronon",
+  };
+};
 
 export async function action({ request }: ActionArgs) {
   try {

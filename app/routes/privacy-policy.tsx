@@ -1,4 +1,5 @@
 import { Box, Container, Text, Title } from "@mantine/core";
+import { type MetaFunction } from "@remix-run/node";
 
 export const headers = () => {
   const a = new Date(),
@@ -10,6 +11,12 @@ export const headers = () => {
 
   return {
     "Cache-Control": `public, max-age=60, s-maxage=${age}, state-while-revalidate=${age}`,
+  };
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: "Privacy and Policy - Ronon",
   };
 };
 

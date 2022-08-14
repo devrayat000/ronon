@@ -27,19 +27,10 @@ export async function getQuestionById(id: number, accessToken: string) {
 export async function getQuestions(accessToken: string) {
   const resp = await api.get<Question[]>("/questions/", {
     headers: { Authorization: `Bearer ${accessToken}` },
+    // timeout: 25 * 1000,
   });
 
-  const questions = resp.data.map(async (question) => {
-    const [answers, user] = await Promise.all([
-      getAnswers(question.ID, accessToken),
-      getUser(question.User, accessToken),
-    ]);
+  const questions = resp.data;
 
-    return Object.assign(question, {
-      answers,
-      user,
-    });
-  });
-
-  return await Promise.all(questions);
+  return questions;
 }

@@ -7,6 +7,7 @@ import {
   SimpleGrid,
   Anchor,
 } from "@mantine/core";
+import dayjs from "dayjs";
 import Voting from "./vote";
 
 interface CommentHtmlProps {
@@ -19,6 +20,7 @@ interface CommentHtmlProps {
   downvotes?: number;
   upvoteStatus: boolean;
   downvoteStatus: boolean;
+  created_at: string;
 }
 
 export default function AnswerCard({
@@ -33,9 +35,12 @@ export default function AnswerCard({
     <Paper withBorder radius="md" px="xl" py="lg">
       <Group>
         <Avatar radius="xl">{author.at(0)?.toUpperCase()}</Avatar>
-        <div>
-          <Text size="sm">{author}</Text>
-        </div>
+        <Text size="sm">{author}</Text>
+
+        <div style={{ flexGrow: 1 }} />
+        <Text size="xs">
+          {dayjs(rest.created_at).format("hh:mm a, DD MMM, YYYY")}
+        </Text>
       </Group>
       <Text component="p">{body}</Text>
 

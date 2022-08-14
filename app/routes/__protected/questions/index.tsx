@@ -47,19 +47,8 @@ export default function QuestionsPage() {
         </Button>
       </Group>
       <Stack mt="xl">
-        {questions.map(({ ID, Que, subject, chapter, ...rest }) => (
-          <CommentHtml
-            key={ID}
-            id={ID}
-            title={Que}
-            user={rest.user}
-            subject={subject}
-            chapter={chapter}
-            upvotes={rest.upvotes}
-            downvotes={rest.downvotes}
-            upvoteStatus={rest.upvoteStatus}
-            downvoteStatus={rest.downvoteStatus}
-          />
+        {questions.map(({ ID, Que, ...rest }) => (
+          <CommentHtml key={ID} id={ID} title={Que} {...rest} />
         ))}
       </Stack>
 

@@ -10,6 +10,7 @@ import {
   Text,
 } from "@mantine/core";
 import { Link } from "@remix-run/react";
+import dayjs from "dayjs";
 
 import type { User } from "~/interfaces/user";
 import Voting from "./questions/vote";
@@ -41,6 +42,7 @@ interface CommentHtmlProps {
   downvotes?: number;
   upvoteStatus: boolean;
   downvoteStatus: boolean;
+  created_at: string;
 }
 
 export function CommentHtml({
@@ -64,6 +66,11 @@ export function CommentHtml({
           </Avatar>
         )}
         <Text size="sm">{user.Name}</Text>
+
+        <div style={{ flexGrow: 1 }} />
+        <Text size="xs">
+          {dayjs(rest.created_at).format("hh:mm a, DD MMM, YYYY")}
+        </Text>
       </Group>
       <Box pl={theme.spacing.xl * 2}>
         <Anchor size="lg" variant="text" component={Link} to={id.toString()}>

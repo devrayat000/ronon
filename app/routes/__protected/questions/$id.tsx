@@ -20,6 +20,7 @@ import type { Question } from "~/interfaces/question";
 import type { Answer } from "~/interfaces/answer";
 import { contentHOF } from "~/services/refresh.server";
 import type { User } from "~/interfaces/user";
+import dayjs from "dayjs";
 
 export const meta: MetaFunction = ({ data }) => {
   return {
@@ -64,6 +65,11 @@ export default function QuestionAnswers() {
         <Box>
           <Text size="md">{question["User's Name"]}</Text>
         </Box>
+
+        <div style={{ flexGrow: 1 }} />
+        <Text size="xs">
+          {dayjs(question.created_at).format("hh:mm a, DD MMM, YYYY")}
+        </Text>
       </Group>
 
       {/* Original question */}

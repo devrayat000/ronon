@@ -41,7 +41,7 @@ export async function action({ request }: ActionArgs) {
       formData.delete("invite_code");
     }
 
-    await fetch("https://rononbd.up.railway.app/api/createUser/", {
+    await fetch("https://rononbd.herokuapp.com/api/createUser/", {
       method: "POST",
       body: formData,
     }).then((r) => r.json());

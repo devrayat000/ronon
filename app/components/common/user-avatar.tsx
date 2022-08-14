@@ -1,6 +1,6 @@
 import { ActionIcon, Avatar, Menu, useMantineTheme } from "@mantine/core";
 import { Link, useLoaderData, useSubmit } from "@remix-run/react";
-import { Logout, Settings } from "tabler-icons-react";
+import { IconLogout, IconSettings } from "@tabler/icons";
 
 import type { User } from "~/interfaces/user";
 
@@ -25,11 +25,15 @@ const UserAvatar = (props: Props) => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item icon={<Settings size={14} />} component={Link} to="/account">
+        <Menu.Item
+          icon={<IconSettings size={14} />}
+          component={Link}
+          to="/account"
+        >
           Account Settings
         </Menu.Item>
         <Menu.Item
-          icon={<Logout size={14} color={theme.colors.red[6]} />}
+          icon={<IconLogout size={14} color={theme.colors.red[6]} />}
           color="red"
           component="button"
           onClick={() => submit({}, { action: "/logout", method: "post" })}

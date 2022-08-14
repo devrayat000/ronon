@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import { type MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
-import { ArrowLeft } from "tabler-icons-react";
+import { IconArrowLeft } from "@tabler/icons";
 
 export const meta: MetaFunction = () => {
   return {
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
             className={classes.control}
           >
             <Center inline>
-              <ArrowLeft size={12} />
+              <IconArrowLeft size={12} />
               <Box ml={5}>Back to login page</Box>
             </Center>
           </Anchor>

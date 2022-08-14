@@ -10,7 +10,7 @@ import {
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { Form, Link, useLoaderData, useOutletContext } from "@remix-run/react";
 import { useContext } from "react";
-import { ArrowBarUp } from "tabler-icons-react";
+import { IconArrowBarUp } from "@tabler/icons";
 
 import { ScrollContext } from "~/components/common/shell";
 import { CommentHtml } from "~/components/question";
@@ -82,7 +82,7 @@ export default function QuestionsPage() {
         <Transition transition="slide-up" mounted={scroll.y > 0}>
           {(transitionStyles) => (
             <Button style={transitionStyles} onClick={() => scrollTo({ y: 0 })}>
-              <ArrowBarUp />
+              <IconArrowBarUp />
             </Button>
           )}
         </Transition>

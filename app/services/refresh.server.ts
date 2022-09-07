@@ -35,7 +35,7 @@ export async function noAuthHOF<T>(
       return redirect("/");
     })
     .catch(async (err) => {
-      console.log("error");
+      console.log("noAuth error");
 
       if (err?.response?.data?.code === "token_not_valid") {
         console.log("invalid token");
@@ -58,13 +58,14 @@ export async function contentHOF<T>(
   callback: (accessToken: string) => Promise<T>
 ) {
   return requireCookie(request)
-    .catch(() => {
+    .catch((e) => {
+      console.log(e);
       throw redirect(`/signin`);
     })
     .then((accessToken) => callback(accessToken))
     .then((res) => json(res))
     .catch(async (err) => {
-      console.log("error");
+      console.log("content error", err);
 
       if (err?.response?.data?.code === "token_not_valid") {
         console.log("invalid token");
@@ -88,13 +89,14 @@ export async function rootHOF<T>(
   callback: (accessToken: string) => Promise<T>
 ) {
   return requireCookie(request)
-    .catch(() => {
+    .catch((e) => {
+      console.log(e);
       return null;
     })
     .then((accessToken) => callback(accessToken))
     .then((res) => json(res))
     .catch(async (err) => {
-      console.log("error");
+      console.log("root error", err);
 
       if (err?.response?.data?.code === "token_not_valid") {
         console.log("invalid token");

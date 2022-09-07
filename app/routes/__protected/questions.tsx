@@ -12,6 +12,7 @@ export async function loader({ request }: LoaderArgs) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    console.log(subjectRes.data);
 
     return {
       subjects: subjectRes.data.map((subject) => ({

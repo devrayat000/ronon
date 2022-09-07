@@ -2,8 +2,9 @@ import { json } from "@remix-run/node";
 
 import { api } from "~/modules/axios.server";
 import { getAnswers } from "./answer.server";
-import type { Question } from "~/interfaces/question";
+import type { Question, QuestionResponse } from "~/interfaces/question";
 import { getUser } from "./user.server";
+import { User } from "~/interfaces/user";
 
 export async function getQuestionById(id: number, accessToken: string) {
   const resp = await api.get<Question[]>("/questions/", {
@@ -24,13 +25,30 @@ export async function getQuestionById(id: number, accessToken: string) {
   });
 }
 
-export async function getQuestions(accessToken: string) {
-  const resp = await api.get<Question[]>("/questions/", {
+type QuestionsReturn = {
+  questions: (Question & {
+    user: User;
+  })[];
+  page: number;
+  pages: number;
+};
+
+export async function getQuestions(
+  accessToken: string
+): Promise<QuestionsReturn>;
+export async function getQuestions(
+  accessToken: string,
+  page: number
+): Promise<QuestionsReturn>;
+export async function getQuestions(accessToken: string, page?: number) {
+  const resp = await api.get<QuestionResponse>("/questions/", {
     headers: { Authorization: `Bearer ${accessToken}` },
+    params: { page },
     // timeout: 25 * 1000,
   });
+  console.log(resp.data);
 
-  const questions = resp.data.map(async (question) => {
+  const questions = resp.data.questions.map(async (question) => {
     const user = await getUser(question.User, accessToken);
     console.log(user);
 
@@ -39,7 +57,11 @@ export async function getQuestions(accessToken: string) {
     });
   });
 
-  return Promise.all(questions);
+  return {
+    questions: await Promise.all(questions),
+    page: resp.data.page,
+    pages: resp.data.pages,
+  };
 }
 
 export async function getFilteredQuestion(tagId: string, accessToken: string) {

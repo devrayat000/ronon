@@ -3,20 +3,27 @@ import {
   Button,
   Container,
   Group,
+  Pagination,
   Paper,
   Stack,
   Transition,
 } from "@mantine/core";
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { Form, Link, useLoaderData, useOutletContext } from "@remix-run/react";
+import type { LoaderArgs, LoaderFunction, MetaFunction } from "@remix-run/node";
+import {
+  Form,
+  Link,
+  useFetcher,
+  useLoaderData,
+  useOutletContext,
+} from "@remix-run/react";
 import { useContext } from "react";
 import { IconArrowBarUp } from "@tabler/icons";
 
 import { ScrollContext } from "~/components/common/shell";
 import { CommentHtml } from "~/components/question";
 import Choices from "~/components/questions/choices";
-import type { Question } from "~/interfaces/question";
-import type { User } from "~/interfaces/user";
+// import type { Question } from "~/interfaces/question";
+// import type { User } from "~/interfaces/user";
 import { getFilteredQuestion, getQuestions } from "~/services/question.server";
 import { contentHOF } from "~/services/refresh.server";
 
@@ -27,28 +34,34 @@ export const meta: MetaFunction = () => {
   };
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url);
   const tagId = url.searchParams.get("tagId");
+  const page = url.searchParams.get("page");
 
   return contentHOF(request, (accessToken) => {
     if (tagId) {
-      return getFilteredQuestion(tagId, accessToken).then((r) => r.reverse());
+      return getFilteredQuestion(tagId, accessToken).then((r) => ({
+        questions: r.reverse(),
+        pages: 0,
+        page: 0,
+      }));
     }
-    return getQuestions(accessToken).then((r) => r.reverse());
+    return getQuestions(accessToken, Number(page));
   });
 };
 
-type LoaderData = Question & {
-  user: User;
-};
-
 export default function QuestionsPage() {
-  const questions = useLoaderData<LoaderData[]>();
+  const { questions, page, pages } = useLoaderData<typeof loader>();
   const { subjects } = useOutletContext<{
     subjects: { label: string; value: string }[];
   }>();
   const [scroll, scrollTo] = useContext(ScrollContext);
+  const fetcher = useFetcher();
+
+  function changePage(pageNum: number) {
+    fetcher.load(".?page=" + pageNum);
+  }
 
   return (
     <Container>
@@ -59,7 +72,7 @@ export default function QuestionsPage() {
       </Group>
 
       <Paper
-        component={Form}
+        component={fetcher.Form}
         // reloadDocument
         method="get"
         withBorder
@@ -77,6 +90,12 @@ export default function QuestionsPage() {
           <CommentHtml key={ID} id={ID} title={Que} {...rest} />
         ))}
       </Stack>
+
+      {pages && (
+        <Group position="center" my="lg">
+          <Pagination page={page} onChange={changePage} total={pages} />
+        </Group>
+      )}
 
       <Affix position={{ bottom: 20, right: 20 }}>
         <Transition transition="slide-up" mounted={scroll.y > 0}>

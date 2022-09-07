@@ -1,3 +1,9 @@
+export interface QuestionResponse {
+  questions: Question[];
+  page: number;
+  pages: number;
+}
+
 export interface Question {
   ID: number;
   User: number;

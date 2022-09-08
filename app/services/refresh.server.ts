@@ -22,32 +22,32 @@ export async function noAuthHOF<T>(
   request: Request,
   callback: (accessToken: string) => Promise<T>
 ) {
-  console.log("running hof");
+  // console.log("running hof");
 
   return requireCookie(request)
     .catch(() => {
-      console.log("no cookie found!");
+      // console.log("no cookie found!");
       throw json("Enter auth page");
     })
     .then((accessToken) => callback(accessToken))
     .then(() => {
-      console.log("user is logged on");
+      // console.log("user is logged on");
       return redirect("/");
     })
     .catch(async (err) => {
-      console.log("noAuth error");
+      // console.log("noAuth error");
 
       if (err?.response?.data?.code === "token_not_valid") {
-        console.log("invalid token");
+        // console.log("invalid token");
 
         const { headers, accessToken } = await refreshToken(request);
-        console.log("refreshed");
+        // console.log("refreshed");
 
         await callback(accessToken);
-        console.log("ran callback");
+        // console.log("ran callback");
         return redirect("/", { headers });
       }
-      console.log("Entering auth page");
+      // console.log("Entering auth page");
 
       return json("Enter auth page");
     });
@@ -59,22 +59,22 @@ export async function contentHOF<T>(
 ) {
   return requireCookie(request)
     .catch((e) => {
-      console.log(e);
+      // console.log(e);
       throw redirect(`/signin`);
     })
     .then((accessToken) => callback(accessToken))
     .then((res) => json(res))
     .catch(async (err) => {
-      console.log("content error", err);
+      // console.log("content error", err);
 
       if (err?.response?.data?.code === "token_not_valid") {
-        console.log("invalid token");
+        // console.log("invalid token");
 
         const { headers, accessToken } = await refreshToken(request);
-        console.log("refreshed");
+        // console.log("refreshed");
 
         const resp = await callback(accessToken);
-        console.log("ran callback");
+        // console.log("ran callback");
 
         return json(resp, { headers, status: 200 });
       }
@@ -90,22 +90,22 @@ export async function rootHOF<T>(
 ) {
   return requireCookie(request)
     .catch((e) => {
-      console.log(e);
+      // console.log(e);
       return null;
     })
     .then((accessToken) => callback(accessToken))
     .then((res) => json(res))
     .catch(async (err) => {
-      console.log("root error", err);
+      // console.log("root error", err);
 
       if (err?.response?.data?.code === "token_not_valid") {
-        console.log("invalid token");
+        // console.log("invalid token");
 
         const { headers, accessToken } = await refreshToken(request);
-        console.log("refreshed");
+        // console.log("refreshed");
 
         const resp = await callback(accessToken).catch(console.log);
-        console.log("ran callback");
+        // console.log("ran callback");
 
         return json(resp, { headers, status: 200 });
       }

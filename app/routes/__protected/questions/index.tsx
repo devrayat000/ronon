@@ -8,11 +8,11 @@ import {
   Stack,
   Transition,
 } from "@mantine/core";
-import type { LoaderArgs, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
   Form,
   Link,
-  useFetcher,
+  useNavigate,
   useLoaderData,
   useOutletContext,
 } from "@remix-run/react";
@@ -47,7 +47,7 @@ export const loader = async ({ request }: LoaderArgs) => {
         page: 0,
       }));
     }
-    return getQuestions(accessToken, Number(page));
+    return getQuestions(accessToken, page ?? undefined);
   });
 };
 
@@ -57,10 +57,10 @@ export default function QuestionsPage() {
     subjects: { label: string; value: string }[];
   }>();
   const [scroll, scrollTo] = useContext(ScrollContext);
-  const fetcher = useFetcher();
+  const navigate = useNavigate();
 
   function changePage(pageNum: number) {
-    fetcher.load(".?page=" + pageNum);
+    navigate(".?page=" + pageNum);
   }
 
   return (
@@ -72,7 +72,7 @@ export default function QuestionsPage() {
       </Group>
 
       <Paper
-        component={fetcher.Form}
+        component={Form}
         // reloadDocument
         method="get"
         withBorder
@@ -109,3 +109,5 @@ export default function QuestionsPage() {
     </Container>
   );
 }
+
+QuestionsPage.displayName = "@ronon/QuestionsPage";

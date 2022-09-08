@@ -1,16 +1,34 @@
 import { json } from "@remix-run/node";
+import DataLoader from "dataloader";
 
 import { api } from "~/modules/axios.server";
 import { getAnswers } from "./answer.server";
 import type { Question, QuestionResponse } from "~/interfaces/question";
 import { getUser } from "./user.server";
-import { User } from "~/interfaces/user";
+
+const questionsLoader = new DataLoader<[number, string], Question | undefined>(
+  async (keys) => {
+    const resp = await api.get<QuestionResponse>("/questions/", {
+      headers: { Authorization: `Bearer ${keys[0][1]}` },
+    });
+    const results = keys.map(async ([id]) =>
+      resp.data.questions.find((q) => q.ID === id)
+    );
+    return await Promise.all(results);
+  },
+  { batch: false }
+);
 
 export async function getQuestionById(id: number, accessToken: string) {
-  const resp = await api.get<Question[]>("/questions/", {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-  const question = resp.data.find((q) => q.ID === id);
+  // const resp = await api.get<QuestionResponse>("/questions/", {
+  //   headers: { Authorization: `Bearer ${accessToken}` },
+  // });
+  // const question = resp.data.questions.find((q) => q.ID === id);
+  console.log("loading started");
+
+  const question = await questionsLoader.load([id, accessToken]);
+  // console.log("",question);
+
   if (!question) {
     throw json("Not found", { status: 404 });
   }
@@ -25,32 +43,20 @@ export async function getQuestionById(id: number, accessToken: string) {
   });
 }
 
-type QuestionsReturn = {
-  questions: (Question & {
-    user: User;
-  })[];
-  page: number;
-  pages: number;
-};
-
-export async function getQuestions(
-  accessToken: string
-): Promise<QuestionsReturn>;
 export async function getQuestions(
   accessToken: string,
-  page: number
-): Promise<QuestionsReturn>;
-export async function getQuestions(accessToken: string, page?: number) {
+  page?: number | string
+) {
   const resp = await api.get<QuestionResponse>("/questions/", {
     headers: { Authorization: `Bearer ${accessToken}` },
     params: { page },
     // timeout: 25 * 1000,
   });
-  console.log(resp.data);
+  // console.log(resp.data);
 
   const questions = resp.data.questions.map(async (question) => {
     const user = await getUser(question.User, accessToken);
-    console.log(user);
+    // console.log(user);
 
     return Object.assign(question, {
       user,

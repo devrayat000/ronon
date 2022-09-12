@@ -1,0 +1,9 @@
+# Example 1: Block only Googlebot
+User-agent: *
+User-agent: AdsBot-Google
+Disallow: /admin/
+Disallow: /account/
+Allow: /
+
+Sitemap: http://rononbd.com/sitemap.xml
+Sitemap: http://www.rononbd.com/sitemap.xml

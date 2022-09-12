@@ -38,7 +38,7 @@ const useStyles = createStyles((theme) => ({
 type Props = {};
 
 const MyHeader: React.FC<Props> = (props) => {
-  const user = useLoaderData<User | null>();
+  const { user } = useLoaderData<{ user: User | null }>();
   const { classes, theme } = useStyles();
 
   return (

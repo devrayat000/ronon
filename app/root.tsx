@@ -12,6 +12,7 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLoaderData,
   useNavigate,
 } from "@remix-run/react";
 import {
@@ -56,7 +57,10 @@ export async function loader({ request }: LoaderArgs) {
     if (!token || !("user_id" in token)) return null;
     return getUser(token.user_id, accessToken);
   });
-  return user;
+  return {
+    user,
+    GA_MEASUREMENT_ID: process.env.GA_MEASUREMENT_ID || "G-YN41ZBKRKS",
+  };
 }
 
 export const meta: MetaFunction = () => ({
@@ -87,6 +91,8 @@ export const links: LinksFunction = () => {
 };
 
 function Document(props: { children: React.ReactNode }) {
+  const { GA_MEASUREMENT_ID } = useLoaderData<typeof loader>();
+
   return (
     <MantineProvider
       theme={{
@@ -103,6 +109,23 @@ function Document(props: { children: React.ReactNode }) {
           <Meta />
           <Links />
           <StylesPlaceholder />
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          />
+          <script
+            async
+            id="gtag-init"
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', '${GA_MEASUREMENT_ID}');
+            `,
+            }}
+          />
         </head>
         <body>
           <Global

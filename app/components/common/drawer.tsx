@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
 type Props = {};
 
 const MyDrawer = (props: Props) => {
-  const user = useLoaderData<User | null>();
+  const { user } = useLoaderData<{ user: User | null }>();
   const [open, toggle] = useToggle([false, true]);
   const { classes, theme } = useStyles();
   const location = useLocation();

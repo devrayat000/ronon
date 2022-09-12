@@ -7,7 +7,7 @@ import type { User } from "~/interfaces/user";
 type Props = {};
 
 const UserAvatar = (props: Props) => {
-  const user = useLoaderData<User>();
+  const { user } = useLoaderData<{ user: User }>();
   const theme = useMantineTheme();
   const submit = useSubmit();
 

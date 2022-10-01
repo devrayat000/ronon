@@ -57,6 +57,8 @@ export async function loader({ request }: LoaderArgs) {
     if (!token || !("user_id" in token)) return null;
     return getUser(token.user_id, accessToken);
   });
+  console.log("user", 3);
+
   return {
     user,
     GA_MEASUREMENT_ID: process.env.GA_MEASUREMENT_ID || "G-YN41ZBKRKS",

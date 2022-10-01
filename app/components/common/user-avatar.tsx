@@ -19,7 +19,7 @@ const UserAvatar = (props: Props) => {
             <Avatar src={user.profile_pic} radius="xl" size="md" />
           ) : (
             <Avatar radius="xl" size="md">
-              {user.Name.at(0)?.toUpperCase()}
+              {user?.Name[0]?.toUpperCase()}
             </Avatar>
           )}
         </ActionIcon>

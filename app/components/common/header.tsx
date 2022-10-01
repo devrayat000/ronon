@@ -40,6 +40,7 @@ type Props = {};
 const MyHeader: React.FC<Props> = (props) => {
   const { user } = useLoaderData<{ user: User | null }>();
   const { classes, theme } = useStyles();
+  console.log("is user", user);
 
   return (
     <Header height={70} className={classes.header} fixed={false}>
@@ -66,15 +67,15 @@ const MyHeader: React.FC<Props> = (props) => {
         </MediaQuery>
 
         {/* Auth links  */}
-        {!user ? (
+        {user && "Name" in user ? (
+          /* User */
+          <UserAvatar />
+        ) : (
           <MediaQuery smallerThan="md" styles={{ display: "none" }}>
             <Group spacing="md">
               <AuthLinks />
             </Group>
           </MediaQuery>
-        ) : (
-          /* User */
-          <UserAvatar />
         )}
       </Group>
     </Header>

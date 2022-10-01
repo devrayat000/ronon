@@ -54,6 +54,16 @@ const MainLinks = (props: Props) => {
         variant="subtle"
         component={NavLink}
         reloadDocument
+        to="/videos"
+      >
+        Videos
+      </Button>
+      <Button
+        className={classes.navlink}
+        size="sm"
+        variant="subtle"
+        component={NavLink}
+        reloadDocument
         to="/about"
       >
         About

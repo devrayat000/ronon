@@ -8,7 +8,7 @@ import {
   Stack,
   Transition,
 } from "@mantine/core";
-import type { LoaderArgs, MetaFunction } from "@remix-run/node";
+import { json, LoaderArgs, MetaFunction, TypedResponse } from "@remix-run/node";
 import {
   Form,
   Link,
@@ -26,6 +26,10 @@ import Choices from "~/components/questions/choices";
 // import type { User } from "~/interfaces/user";
 import { getFilteredQuestion, getQuestions } from "~/services/question.server";
 import { contentHOF } from "~/services/refresh.server";
+import {
+  getFilteredVideoQuestion,
+  getVideoQuestions,
+} from "~/services/video-question.server";
 
 export const meta: MetaFunction = () => {
   return {
@@ -39,15 +43,26 @@ export const loader = async ({ request }: LoaderArgs) => {
   const tagId = url.searchParams.get("tagId");
   const page = url.searchParams.get("page");
 
-  return contentHOF(request, (accessToken) => {
+  const questions = await contentHOF(request, (accessToken) => {
     if (tagId) {
-      return getFilteredQuestion(tagId, accessToken).then((r) => ({
+      return getFilteredVideoQuestion(tagId, accessToken).then((r) => ({
         questions: r.reverse(),
         pages: 0,
         page: 0,
       }));
     }
-    return getQuestions(accessToken, page ?? undefined);
+    return getVideoQuestions(accessToken, page ?? undefined);
+  });
+
+  type A = typeof questions extends TypedResponse<infer U> ? U : never;
+  const headers = new Headers(questions.headers);
+  headers.append(
+    "Cache-Control",
+    "public, max-age=0, s-maxage=60, stale-while-invalidate=3600"
+  );
+
+  return json((await questions.json()) as A, {
+    headers,
   });
 };
 
@@ -65,12 +80,6 @@ export default function QuestionsPage() {
 
   return (
     <Container>
-      <Group position="right" mt="xl">
-        <Button component={Link} to="create">
-          Ask Question
-        </Button>
-      </Group>
-
       <Paper
         component={Form}
         // reloadDocument
@@ -79,15 +88,22 @@ export default function QuestionsPage() {
         mt="xl"
         p="lg"
       >
-        <Choices subjects={subjects} />
+        {subjects && subjects.length > 0 && <Choices subjects={subjects} />}
         <Group mt="lg" position="right">
           <Button type="submit">Filter</Button>
         </Group>
       </Paper>
 
       <Stack mt="xl">
-        {questions.map(({ ID, Que, ...rest }) => (
-          <CommentHtml key={ID} id={ID} title={Que} {...rest} />
+        {questions.map(({ id, question, video_url, ...rest }) => (
+          <CommentHtml
+            key={id}
+            id={id}
+            title={question}
+            isVideo
+            video_url={video_url}
+            {...rest}
+          />
         ))}
       </Stack>
 

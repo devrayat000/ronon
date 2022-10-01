@@ -13,6 +13,7 @@ import { Link, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
 
 import type { User } from "~/interfaces/user";
+import type { VideoQuestion } from "~/interfaces/VideoQuestion";
 import Voting from "./questions/vote";
 
 const useStyles = createStyles((theme) => ({
@@ -35,25 +36,34 @@ const useStyles = createStyles((theme) => ({
 interface CommentHtmlProps {
   id: number | string;
   title: string;
-  user: User;
   subject: string;
   chapter: string;
+  created_at: string;
+}
+
+interface TextProps {
+  user: User;
   upvotes?: number;
   downvotes?: number;
   upvoteStatus: boolean;
   downvoteStatus: boolean;
   verified?: boolean;
-  created_at: string;
 }
 
-export function CommentHtml({
-  id,
-  title,
+interface VideoProps {
+  user: VideoQuestion["user"];
+  video_url: string;
+}
+
+export type CommentHTMLProps<Video extends boolean = false> = {
+  isVideo?: Video;
+} & CommentHtmlProps &
+  (Video extends true ? VideoProps : TextProps);
+
+export function CommentHtml<Video extends boolean = false>({
   user,
-  subject,
-  chapter,
-  ...rest
-}: CommentHtmlProps) {
+  ...props
+}: CommentHTMLProps<Video>) {
   const [params] = useSearchParams();
   const { classes, theme } = useStyles();
 
@@ -61,50 +71,63 @@ export function CommentHtml({
     <Paper withBorder radius="md" className={classes.comment}>
       <Group>
         {user.profile_pic ? (
-          <Avatar src={user.profile_pic} alt={user.Name} radius="xl" />
+          <Avatar
+            src={user.profile_pic}
+            alt={"name" in user ? user.name : user.Name}
+            radius="xl"
+          />
         ) : (
-          <Avatar alt={user.Name} radius="xl">
-            {user.Name.at(0)?.toUpperCase()}
+          <Avatar alt={"name" in user ? user.name : user.Name} radius="xl">
+            {("name" in user ? user.name : user.Name).at(0)?.toUpperCase()}
           </Avatar>
         )}
-        <Text size="sm">{user.Name}</Text>
+        <Text size="sm">{"name" in user ? user.name : user.Name}</Text>
 
         <div style={{ flexGrow: 1 }} />
         <Text size="xs">
-          {dayjs(rest.created_at).format("hh:mm a, DD MMM, YYYY")}
+          {dayjs(props.created_at).format("hh:mm a, DD MMM, YYYY")}
         </Text>
       </Group>
       <Box pl={theme.spacing.xl * 2}>
-        <Anchor size="lg" variant="text" component={Link} to={id.toString()}>
-          {title}
+        <Anchor
+          size="lg"
+          variant="text"
+          component={Link}
+          to={props.id.toString()}
+        >
+          {props.title}
         </Anchor>
 
         <Breadcrumbs mt="md" separator="→">
-          <Text>{subject}</Text>
-          <Text>{chapter}</Text>
+          <Text>{props.subject}</Text>
+          <Text>{props.chapter}</Text>
         </Breadcrumbs>
 
-        {rest.verified && (
-          <Text size="sm" mt="md" color="green">
-            Verified by admin *
-          </Text>
+        {!props.isVideo &&
+          "verified" in props &&
+          ((props as any).verified as any) && (
+            <Text size="sm" mt="md" color="green">
+              Verified by admin *
+            </Text>
+          )}
+
+        {!props.isVideo && "verified" in props && !params.has("tagId") && (
+          <Voting url={`/questions/${props.id}/vote`} {...(props as any)} />
         )}
 
-        {!params.has("tagId") && (
-          <Voting url={`/questions/${id}/vote`} {...rest} />
-        )}
-
-        <Group position="apart" mt="lg">
+        <Group position={props.isVideo ? "right" : "apart"} mt="lg">
           <Button
-            variant="outline"
+            variant={props.isVideo ? "filled" : "outline"}
             component={Link}
-            to={id.toString() + "/#comments"}
+            to={props.id.toString() + (props.isVideo ? "" : "/#comments")}
           >
-            See Answers
+            See {props.isVideo ? "Videos" : "Answers"}
           </Button>
-          <Button component={Link} to={id.toString() + "/respond"}>
-            Answer
-          </Button>
+          {!props.isVideo && (
+            <Button component={Link} to={props.id.toString() + "/respond"}>
+              Answer
+            </Button>
+          )}
         </Group>
       </Box>
     </Paper>

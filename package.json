@@ -4,7 +4,7 @@
   "scripts": {
     "build": "remix build",
     "build:netlify": "cross-env NETLIFY=prod remix build",
-    "dev": "remix dev",
+    "dev": "remix dev --port 3001",
     "dev:start": "remix-serve build",
     "start": "cross-env NODE_ENV=production NETLIFY=prod netlify dev"
   },
